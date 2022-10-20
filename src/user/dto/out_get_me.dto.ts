@@ -48,8 +48,15 @@ export class OutGetMeDto {
   })
   social: string;
 
-  // @IsNotEmpty()
-  // status (signed, active, left)
+  @IsNotEmpty()
+  lat: number | null;
+
+  @IsNotEmpty()
+  lng: number | null;
+
+  @IsNotEmpty()
+  address: string | null;
+
   @IsNotEmpty()
   status: string;
 

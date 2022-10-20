@@ -42,6 +42,15 @@ export class InSignUpDto {
   @IsNotEmpty()
   name: string;
 
+  @IsNotEmpty()
+  lat: number | null;
+
+  @IsNotEmpty()
+  lng: number | null;
+
+  @IsNotEmpty()
+  address: string | null;
+
   @ApiProperty({
     example: 'https://aaaa.com',
     description: '프로필 사진 경로',

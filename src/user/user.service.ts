@@ -114,6 +114,9 @@ export class UserService {
       social: 'apple',
       password: 'applepassword',
       uid: uid,
+      lat: null,
+      lng: null,
+      address: null,
     };
 
     const user = await this.usersRepository.findOne({ email });
@@ -148,6 +151,9 @@ export class UserService {
         social: 'kakao',
         password: 'kakaopassword',
         uid: uid,
+        lat: null,
+        lng: null,
+        address: null,
       };
       await this.admin.auth().createUser(newUser);
       await this.usersRepository.create(newUser);

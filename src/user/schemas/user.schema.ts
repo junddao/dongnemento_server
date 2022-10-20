@@ -33,6 +33,15 @@ export class User {
   pushEnabled: boolean;
 
   @Prop()
+  lat: number | null;
+
+  @Prop()
+  lng: number | null;
+
+  @Prop()
+  address: string | null;
+
+  @Prop()
   status: string;
 
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
