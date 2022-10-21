@@ -38,6 +38,30 @@ export class InUpdateUserDto {
   @IsNotEmpty()
   profileImage: string;
 
+  @ApiProperty({
+    example: '26.232323',
+    description: '위도',
+    required: true,
+  })
+  @IsNotEmpty()
+  lat: number | null;
+
+  @ApiProperty({
+    example: '23.222222',
+    description: '경도',
+    required: true,
+  })
+  @IsNotEmpty()
+  lng: number | null;
+
+  @ApiProperty({
+    example: '운중동 912',
+    description: '내 위치 주소',
+    required: true,
+  })
+  @IsNotEmpty()
+  address: string | null;
+
   // @IsNotEmpty()
   // status (signed, active, left)
 
