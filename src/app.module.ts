@@ -7,6 +7,7 @@ import { LoggerMiddleware } from './logger.middleware';
 import { RecordModule } from './record/record.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { UserModule } from './user/user.module';
+import { PinModule } from './pin/pin.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     UserModule,
     RecordModule,
     UploadsModule,
+    PinModule,
   ],
   controllers: [AppController],
   providers: [AppService],
