@@ -14,7 +14,7 @@ import { PinModule } from './pin/pin.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
-        process.env.NODE_ENV === 'dev' ? './env/dev.env' : './env/prod.env',
+        process.env.NODE_ENV === 'prod' ? './env/prod.env' : './env/dev.env',
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

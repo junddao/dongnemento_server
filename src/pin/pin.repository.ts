@@ -1,6 +1,7 @@
+import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { Pin, PinDocument } from './schemas/pin.schema';
 
@@ -15,5 +16,8 @@ export class PinRepository {
     const newPin = new this.pinModel(InCreatePinDto);
     newPin.userId = userId;
     return newPin.save();
+  }
+  async find(pinFilterQuery: FilterQuery<Pin>): Promise<Pin[]> {
+    return this.pinModel.find(pinFilterQuery);
   }
 }

@@ -1,3 +1,4 @@
+import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { Injectable } from '@nestjs/common';
 import { PinRepository } from './pin.repository';
@@ -13,5 +14,12 @@ export class PinService {
     userId: ObjectId,
   ): Promise<Pin> {
     return this.pinRepository.createPin(InCreatePinDto, userId);
+  }
+  async getPins(inGetPinsDto: InGetPinsDto, userId: ObjectId): Promise<Pin[]> {
+    return this.pinRepository.find({
+      lat: { $gt: inGetPinsDto.lat - 10, $lt: inGetPinsDto.lat + 10 },
+      lng: { $gt: inGetPinsDto.lng - 10, $lt: inGetPinsDto.lng + 10 },
+      userId: userId,
+    });
   }
 }
