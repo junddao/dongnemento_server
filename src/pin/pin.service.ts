@@ -22,4 +22,8 @@ export class PinService {
       userId: userId,
     });
   }
+
+  async getPin(_id: string): Promise<Pin> {
+    return this.pinRepository.findOne({ _id });
+  }
 }

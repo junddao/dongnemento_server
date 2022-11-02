@@ -20,4 +20,8 @@ export class PinRepository {
   async find(pinFilterQuery: FilterQuery<Pin>): Promise<Pin[]> {
     return this.pinModel.find(pinFilterQuery);
   }
+
+  async findOne(recordFilterQuery: FilterQuery<Pin>): Promise<Pin> {
+    return this.pinModel.findOne(recordFilterQuery);
+  }
 }

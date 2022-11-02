@@ -1,13 +1,14 @@
 import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ApiResponseDto, ResponseDto } from 'src/common/dto/response.dto';
 import { PinService } from './pin.service';
 import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
+import { OutGetPinDto } from './dto/out_get_pin.dto';
 
 @ApiTags('pin')
 @Controller('pin')
@@ -29,7 +30,7 @@ export class PinController {
     };
   }
 
-  @ApiOperation({ summary: 'Pin 생성' })
+  @ApiOperation({ summary: '위치기준 특정 거리 안에 pin들 조회' })
   @Post('/get/pins')
   @UseGuards(AuthGuard())
   async getPins(
@@ -41,6 +42,19 @@ export class PinController {
       success: true,
       error: null,
       data: data,
+    };
+  }
+
+  @ApiOperation({ summary: 'pin 조회' })
+  @ApiResponseDto(OutGetPinDto)
+  @Get('/get/:id')
+  @UseGuards(AuthGuard())
+  async getPin(@Param('id') id: string): Promise<ResponseDto<OutGetPinDto>> {
+    const data = await this.pinService.getPin(id);
+    return {
+      success: true,
+      error: null,
+      data: [data],
     };
   }
 }
