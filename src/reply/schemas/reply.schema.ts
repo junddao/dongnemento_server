@@ -1,28 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { ObjectId } from 'mongoose';
 
-export type PinDocument = Pin & Document;
+export type ReplyDocument = Reply & Document;
 
 @Schema({ timestamps: true })
-export class Pin {
+export class Reply {
   _id: ObjectId;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pin', required: true })
+  pinId: ObjectId;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, require: true })
   userId: ObjectId;
 
-  @Prop({ require: true })
-  lat: number;
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  targetReplyId: ObjectId | null;
 
   @Prop({ require: true })
-  lng: number;
-
-  @Prop({ require: true })
-  title: string;
-
-  images: string[];
-
-  @Prop({ require: true })
-  body: string;
+  reply: string;
 
   @Prop({ default: 0 })
   likeCount: number;
@@ -43,4 +38,4 @@ export class Pin {
   updatedAt: Date;
 }
 
-export const PinSchema = SchemaFactory.createForClass(Pin);
+export const ReplySchema = SchemaFactory.createForClass(Reply);

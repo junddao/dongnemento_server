@@ -18,7 +18,7 @@ export class PinController {
   @ApiOperation({ summary: 'Pin 생성' })
   @Post('/create')
   @UseGuards(AuthGuard())
-  async createRecord(
+  async createPin(
     @Body() inCreatePinDto: InCreatePinDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<null>> {

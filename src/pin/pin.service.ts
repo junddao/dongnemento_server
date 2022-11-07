@@ -15,10 +15,17 @@ export class PinService {
   ): Promise<Pin> {
     return this.pinRepository.createPin(InCreatePinDto, userId);
   }
+
   async getPins(inGetPinsDto: InGetPinsDto, userId: ObjectId): Promise<Pin[]> {
     return this.pinRepository.find({
-      lat: { $gt: inGetPinsDto.lat - 10, $lt: inGetPinsDto.lat + 10 },
-      lng: { $gt: inGetPinsDto.lng - 10, $lt: inGetPinsDto.lng + 10 },
+      lat: {
+        $gt: inGetPinsDto.lat - inGetPinsDto.range / 91000,
+        $lt: inGetPinsDto.lat + inGetPinsDto.range / 91000,
+      },
+      lng: {
+        $gt: inGetPinsDto.lng - inGetPinsDto.range / 111000,
+        $lt: inGetPinsDto.lng + inGetPinsDto.range / 111000,
+      },
       userId: userId,
     });
   }

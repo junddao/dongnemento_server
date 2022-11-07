@@ -23,5 +23,5 @@ export class InGetPinsDto {
     description: 'm단위',
     required: false,
   })
-  distance: number | null;
+  range: number | null;
 }

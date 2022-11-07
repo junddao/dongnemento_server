@@ -8,6 +8,7 @@ import { RecordModule } from './record/record.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { UserModule } from './user/user.module';
 import { PinModule } from './pin/pin.module';
+import { ReplyModule } from './reply/reply.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { PinModule } from './pin/pin.module';
     RecordModule,
     UploadsModule,
     PinModule,
+    ReplyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

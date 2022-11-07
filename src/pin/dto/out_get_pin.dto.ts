@@ -57,4 +57,36 @@ export class OutGetPinDto {
   })
   @IsNotEmpty()
   body: string;
+
+  @ApiProperty({
+    example: '33',
+    description: '좋아요 갯수',
+    required: false,
+  })
+  @IsNotEmpty()
+  likeCount: number;
+
+  @ApiProperty({
+    example: 'bool',
+    description: '좋아요 눌렀는지 여부',
+    required: false,
+  })
+  @IsNotEmpty()
+  isLiked: boolean;
+
+  @ApiProperty({
+    example: '33',
+    description: '싫어요 갯수',
+    required: false,
+  })
+  @IsNotEmpty()
+  hateCount: number;
+
+  @ApiProperty({
+    example: 'bool',
+    description: '싫어요 눌렀는지 여부',
+    required: false,
+  })
+  @IsNotEmpty()
+  isHated: boolean;
 }
