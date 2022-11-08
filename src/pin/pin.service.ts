@@ -19,8 +19,8 @@ export class PinService {
   async getPins(inGetPinsDto: InGetPinsDto, userId: ObjectId): Promise<Pin[]> {
     return this.pinRepository.find({
       lat: {
-        $gt: inGetPinsDto.lat - inGetPinsDto.range / 91000,
-        $lt: inGetPinsDto.lat + inGetPinsDto.range / 91000,
+        $gt: inGetPinsDto.lat - inGetPinsDto.range / 90000,
+        $lt: inGetPinsDto.lat + inGetPinsDto.range / 90000,
       },
       lng: {
         $gt: inGetPinsDto.lng - inGetPinsDto.range / 111000,

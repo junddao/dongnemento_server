@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
-export class OutGetPinDto {
+export class OutGetPinRepliesDto {
   @ApiProperty({
     example: '62ab12a23e9e123a2c054f',
     description: 'id',
@@ -12,51 +12,43 @@ export class OutGetPinDto {
   _id: ObjectId;
 
   @ApiProperty({
-    example: '22.232323',
-    description: '위도',
+    example: '123wae534e',
+    description: 'pinId',
     required: true,
   })
   @IsNotEmpty()
-  lat: number;
+  pinId: ObjectId;
 
   @ApiProperty({
-    example: '126.222222',
-    description: '경도',
-    required: true,
-  })
-  @IsNotEmpty()
-  lng: number;
-
-  @ApiProperty({
-    example: '홍길동',
-    description: '핀 생성 유저의 id',
+    example: 'adsf123wdwe',
+    description: 'pin 꼽은 유저 id',
     required: true,
   })
   @IsNotEmpty()
   userId: ObjectId;
 
   @ApiProperty({
-    example: '제목입니다.',
-    description: '제목',
+    example: '김춘식',
+    description: '댓글 작성자 이름',
     required: true,
   })
   @IsNotEmpty()
-  title: string;
+  userName: string;
 
   @ApiProperty({
-    example: '이미지들.',
-    description: '이미지 주소',
+    example: 'qweqwe123123',
+    description: '리플 대상 리플의 id',
   })
   @IsNotEmpty()
-  images: string[] | null;
+  targetReplyId: ObjectId | null;
 
   @ApiProperty({
-    example: '내용입니다.',
-    description: '내용',
-    required: false,
+    example: '리플입니다.',
+    description: '리플',
+    required: true,
   })
   @IsNotEmpty()
-  body: string;
+  reply: string;
 
   @ApiProperty({
     example: '33',

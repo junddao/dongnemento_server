@@ -57,4 +57,20 @@ export class OutGetPinsDto {
   })
   @IsNotEmpty()
   body: string;
+
+  @ApiProperty({
+    example: '2017-03-16T17:40:00+09:00',
+    description: '생성(ISO 8601 시간)',
+    required: false,
+  })
+  @IsNotEmpty()
+  createdAt: Date;
+
+  @ApiProperty({
+    example: '2017-03-16T17:40:00+09:00',
+    description: '수정(ISO 8601 시간)',
+    required: false,
+  })
+  @IsNotEmpty()
+  updatedAt: Date;
 }

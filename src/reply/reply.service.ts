@@ -11,7 +11,16 @@ export class ReplyService {
   async createReply(
     InCreatePinReplyDto: InCreatePinReplyDto,
     userId: ObjectId,
+    userName: string,
   ): Promise<Reply> {
-    return this.replyRepository.createReply(InCreatePinReplyDto, userId);
+    return this.replyRepository.createReply(
+      InCreatePinReplyDto,
+      userId,
+      userName,
+    );
+  }
+
+  async getPinReplies(id: string): Promise<Reply[]> {
+    return this.replyRepository.find({ id });
   }
 }

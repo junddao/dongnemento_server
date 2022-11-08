@@ -13,6 +13,9 @@ export class Reply {
   @Prop({ type: mongoose.Schema.Types.ObjectId, require: true })
   userId: ObjectId;
 
+  @Prop({ require: true })
+  userName: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId })
   targetReplyId: ObjectId | null;
 
