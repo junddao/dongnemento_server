@@ -33,9 +33,9 @@ export class ReplyController {
   @Get('/get/replies/:id')
   @UseGuards(AuthGuard())
   async getPin(
-    @Param('id') id: string,
+    @Param('id') pinId: string,
   ): Promise<ResponseDto<OutGetPinRepliesDto>> {
-    const data = await this.replyService.getPinReplies(id);
+    const data = await this.replyService.getPinReplies(pinId);
     return {
       success: true,
       error: null,

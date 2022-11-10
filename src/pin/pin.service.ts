@@ -4,6 +4,8 @@ import { Injectable } from '@nestjs/common';
 import { PinRepository } from './pin.repository';
 import { Pin } from './schemas/pin.schema';
 import { ObjectId } from 'mongoose';
+import { InSetPinLike } from './dto/in_set_pin_like.dto';
+import { BGPPeer } from 'aws-sdk/clients/directconnect';
 
 @Injectable()
 export class PinService {
@@ -32,5 +34,9 @@ export class PinService {
 
   async getPin(_id: string): Promise<Pin> {
     return this.pinRepository.findOne({ _id });
+  }
+
+  async setPinLike(inSetPinLike: InSetPinLike): Promise<boolean> {
+    return this.pinRepository.setLike(inSetPinLike);
   }
 }

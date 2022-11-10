@@ -9,6 +9,7 @@ import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
+import { InSetPinLike } from './dto/in_set_pin_like.dto';
 
 @ApiTags('pin')
 @Controller('pin')
@@ -55,6 +56,23 @@ export class PinController {
       success: true,
       error: null,
       data: [data],
+    };
+  }
+
+  @ApiOperation({ summary: '좋아요 생성' })
+  @Post('/like')
+  @UseGuards(AuthGuard())
+  async setPinLike(
+    @Body() inSetPinLike: InSetPinLike,
+    @GetUser() user: User,
+  ): Promise<ResponseDto<boolean>> {
+    console.log(inSetPinLike);
+    const result: boolean = await this.pinService.setPinLike(inSetPinLike);
+
+    return {
+      success: true,
+      error: null,
+      data: [result],
     };
   }
 }

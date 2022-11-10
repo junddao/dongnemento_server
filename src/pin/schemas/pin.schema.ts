@@ -19,7 +19,8 @@ export class Pin {
   @Prop({ require: true })
   title: string;
 
-  images: string[];
+  @Prop({ require: true })
+  images: string[] | null;
 
   @Prop({ require: true })
   body: string;
