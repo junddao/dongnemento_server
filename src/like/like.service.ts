@@ -10,9 +10,15 @@ export class LikeService {
   async createPinLike(
     inCreateLikeDto: InCreateLikeDto,
     userId: ObjectId,
-  ): Promise<Like> {
+  ): Promise<void> {
     const newPinLike = new this.likeModel(inCreateLikeDto);
     newPinLike.userId = userId;
-    return newPinLike.save();
+    newPinLike.save();
+  }
+
+  async getLikeCount(pinId: ObjectId): Promise<number> {
+    const pins = await this.likeModel.find({ pinId: pinId });
+    const pinCount = pins.length;
+    return pinCount;
   }
 }

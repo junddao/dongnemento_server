@@ -10,11 +10,10 @@ export class InCreateLikeDto {
   @IsNotEmpty()
   pinId: string | null;
 
-  @ApiProperty({
-    example: 'replyID',
-    description: 'reply ID',
-    required: true,
-  })
-  @IsNotEmpty()
-  replyId: string | null;
+  // @ApiProperty({
+  //   example: 'replyID',
+  //   description: 'reply ID',
+  // })
+  // @IsNotEmpty()
+  // replyId: string | null;
 }

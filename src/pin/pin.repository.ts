@@ -23,14 +23,11 @@ export class PinRepository {
   }
 
   async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<Pin> {
-    return this.pinModel.findOne(pinFilterQuery);
-  }
-
-  async setLike(inSetPinLike: InSetPinLike): Promise<boolean> {
+    const selectedPin = await this.pinModel.findOne(pinFilterQuery);
     const result = await this.pinModel.aggregate([
       {
         $match: {
-          _id: inSetPinLike._id,
+          _id: selectedPin._id,
         },
       },
       {
@@ -41,10 +38,37 @@ export class PinRepository {
           as: 'isLiked',
         },
       },
+      {
+        $count: 'total_like_count',
+      },
     ]);
+
     console.log(result);
 
-    if (result.length == 0) return false;
-    else return true;
+    selectedPin.likeCount = 10;
+    console.log(selectedPin);
+    return selectedPin;
   }
+
+  // async setLike(inSetPinLike: InSetPinLike): Promise<boolean> {
+  //   const result = await this.pinModel.aggregate([
+  //     {
+  //       $match: {
+  //         _id: inSetPinLike._id,
+  //       },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: 'pinLikes',
+  //         localField: '_id',
+  //         foreignField: 'pinId',
+  //         as: 'isLiked',
+  //       },
+  //     },
+  //   ]);
+  //   console.log(result);
+
+  //   if (result.length == 0) return false;
+  //   else return true;
+  // }
 }

@@ -13,8 +13,8 @@ export class Like {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pin', required: true })
   pinId: ObjectId | null;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pin', required: true })
-  replyId: ObjectId | null;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Reply', required: true })
+  // replyId: ObjectId | null;
 
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   createdAt: Date;

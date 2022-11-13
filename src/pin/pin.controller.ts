@@ -10,6 +10,7 @@ import { User } from 'src/user/schemas/user.schema';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { InSetPinLike } from './dto/in_set_pin_like.dto';
+import { ObjectId } from 'mongoose';
 
 @ApiTags('pin')
 @Controller('pin')
@@ -50,7 +51,7 @@ export class PinController {
   @ApiResponseDto(OutGetPinDto)
   @Get('/get/:id')
   @UseGuards(AuthGuard())
-  async getPin(@Param('id') id: string): Promise<ResponseDto<OutGetPinDto>> {
+  async getPin(@Param('id') id: ObjectId): Promise<ResponseDto<OutGetPinDto>> {
     const data = await this.pinService.getPin(id);
     return {
       success: true,
@@ -67,12 +68,12 @@ export class PinController {
     @GetUser() user: User,
   ): Promise<ResponseDto<boolean>> {
     console.log(inSetPinLike);
-    const result: boolean = await this.pinService.setPinLike(inSetPinLike);
+    await this.pinService.setPinLike(inSetPinLike, user._id);
 
     return {
       success: true,
       error: null,
-      data: [result],
+      data: null,
     };
   }
 }

@@ -1,3 +1,5 @@
+import { LikeModule } from './../like/like.module';
+import { LikeService } from './../like/like.service';
 import { PinRepository } from './pin.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './../user/user.module';
@@ -8,6 +10,7 @@ import { Pin, PinSchema } from './schemas/pin.schema';
 
 @Module({
   imports: [
+    LikeModule,
     UserModule,
     MongooseModule.forFeature([{ name: Pin.name, schema: PinSchema }]),
   ],

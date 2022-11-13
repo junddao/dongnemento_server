@@ -1,15 +1,19 @@
+import { InCreateLikeDto } from './../like/dto/inCreateLike.dto';
+import { LikeService } from './../like/like.service';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { Injectable } from '@nestjs/common';
 import { PinRepository } from './pin.repository';
 import { Pin } from './schemas/pin.schema';
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { InSetPinLike } from './dto/in_set_pin_like.dto';
-import { BGPPeer } from 'aws-sdk/clients/directconnect';
 
 @Injectable()
 export class PinService {
-  constructor(private readonly pinRepository: PinRepository) {}
+  constructor(
+    private readonly pinRepository: PinRepository,
+    private readonly likeService: LikeService,
+  ) {}
 
   async createPin(
     InCreatePinDto: InCreatePinDto,
@@ -32,11 +36,21 @@ export class PinService {
     });
   }
 
-  async getPin(_id: string): Promise<Pin> {
-    return this.pinRepository.findOne({ _id });
+  async getPin(_id: ObjectId): Promise<Pin> {
+    // const id = new mongoose.Schema.Types.ObjectId(_id);
+    const count = await this.likeService.getLikeCount(_id);
+    const result = await this.pinRepository.findOne({ _id });
+    result.likeCount = count;
+    return result;
   }
 
-  async setPinLike(inSetPinLike: InSetPinLike): Promise<boolean> {
-    return this.pinRepository.setLike(inSetPinLike);
+  async setPinLike(
+    inSetPinLike: InSetPinLike,
+    userId: ObjectId,
+  ): Promise<void> {
+    const inCreateLikeDto: InCreateLikeDto = {
+      pinId: inSetPinLike._id.toString(),
+    };
+    this.likeService.createPinLike(inCreateLikeDto, userId);
   }
 }
