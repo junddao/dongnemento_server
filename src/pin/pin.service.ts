@@ -38,9 +38,12 @@ export class PinService {
 
   async getPin(_id: ObjectId): Promise<Pin> {
     // const id = new mongoose.Schema.Types.ObjectId(_id);
-    const count = await this.likeService.getLikeCount(_id);
+    const count: number = await this.likeService.getLikeCount(_id);
     const result = await this.pinRepository.findOne({ _id });
+    console.log('count' + count);
     result.likeCount = count;
+    if (count != 0) result.isLiked = true;
+    else result.isLiked = false;
     return result;
   }
 

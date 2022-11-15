@@ -18,6 +18,7 @@ export class LikeService {
 
   async getLikeCount(pinId: ObjectId): Promise<number> {
     const pins = await this.likeModel.find({ pinId: pinId });
+    console.log(pins);
     const pinCount = pins.length;
     return pinCount;
   }
