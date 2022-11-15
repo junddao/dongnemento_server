@@ -1,12 +1,12 @@
+import { Injectable } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { InCreateLikeDto } from './../like/dto/inCreateLike.dto';
 import { LikeService } from './../like/like.service';
-import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
-import { Injectable } from '@nestjs/common';
+import { InGetPinsDto } from './dto/in_get_pins.dto';
+import { InSetPinLike } from './dto/in_set_pin_like.dto';
 import { PinRepository } from './pin.repository';
 import { Pin } from './schemas/pin.schema';
-import mongoose, { ObjectId } from 'mongoose';
-import { InSetPinLike } from './dto/in_set_pin_like.dto';
 
 @Injectable()
 export class PinService {
@@ -22,7 +22,7 @@ export class PinService {
     return this.pinRepository.createPin(InCreatePinDto, userId);
   }
 
-  async getPins(inGetPinsDto: InGetPinsDto, userId: ObjectId): Promise<Pin[]> {
+  async getPins(inGetPinsDto: InGetPinsDto): Promise<Pin[]> {
     return this.pinRepository.find({
       lat: {
         $gt: inGetPinsDto.lat - inGetPinsDto.range / 90000,
@@ -32,18 +32,22 @@ export class PinService {
         $gt: inGetPinsDto.lng - inGetPinsDto.range / 111000,
         $lt: inGetPinsDto.lng + inGetPinsDto.range / 111000,
       },
-      userId: userId,
+      // userId: userId,
     });
   }
 
-  async getPin(_id: ObjectId): Promise<Pin> {
+  async getPin(_id: ObjectId, userId: ObjectId): Promise<Pin> {
     // const id = new mongoose.Schema.Types.ObjectId(_id);
     const count: number = await this.likeService.getLikeCount(_id);
     const result = await this.pinRepository.findOne({ _id });
     console.log('count' + count);
     result.likeCount = count;
-    if (count != 0) result.isLiked = true;
+
+    const isLiked = await this.likeService.isLikedByMe(_id, userId);
+    console.log(isLiked);
+    if (isLiked) result.isLiked = true;
     else result.isLiked = false;
+
     return result;
   }
 
@@ -54,6 +58,6 @@ export class PinService {
     const inCreateLikeDto: InCreateLikeDto = {
       pinId: inSetPinLike._id.toString(),
     };
-    this.likeService.createPinLike(inCreateLikeDto, userId);
+    this.likeService.setPinLike(inCreateLikeDto, userId);
   }
 }

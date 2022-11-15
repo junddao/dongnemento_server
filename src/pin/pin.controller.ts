@@ -1,16 +1,16 @@
-import { InGetPinsDto } from './dto/in_get_pins.dto';
-import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ObjectId } from 'mongoose';
 import { ApiResponseDto, ResponseDto } from 'src/common/dto/response.dto';
-import { PinService } from './pin.service';
 import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
-import { OutGetPinsDto } from './dto/out_get_pins.dto';
-import { OutGetPinDto } from './dto/out_get_pin.dto';
+import { InCreatePinDto } from './dto/in_create_pin.dto';
+import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { InSetPinLike } from './dto/in_set_pin_like.dto';
-import { ObjectId } from 'mongoose';
+import { OutGetPinDto } from './dto/out_get_pin.dto';
+import { OutGetPinsDto } from './dto/out_get_pins.dto';
+import { PinService } from './pin.service';
 
 @ApiTags('pin')
 @Controller('pin')
@@ -39,7 +39,7 @@ export class PinController {
     @Body() inGetPinsDto: InGetPinsDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<OutGetPinsDto>> {
-    const data = await this.pinService.getPins(inGetPinsDto, user._id);
+    const data = await this.pinService.getPins(inGetPinsDto);
     return {
       success: true,
       error: null,
@@ -51,8 +51,11 @@ export class PinController {
   @ApiResponseDto(OutGetPinDto)
   @Get('/get/:id')
   @UseGuards(AuthGuard())
-  async getPin(@Param('id') id: ObjectId): Promise<ResponseDto<OutGetPinDto>> {
-    const data = await this.pinService.getPin(id);
+  async getPin(
+    @Param('id') id: ObjectId,
+    @GetUser() user: User,
+  ): Promise<ResponseDto<OutGetPinDto>> {
+    const data = await this.pinService.getPin(id, user._id);
     return {
       success: true,
       error: null,
