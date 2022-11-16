@@ -1,16 +1,17 @@
-import { LikeModule } from './../like/like.module';
-import { LikeService } from './../like/like.service';
-import { PinRepository } from './pin.repository';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { HateModule } from 'src/hate/hate.module';
+import { LikeModule } from './../like/like.module';
+import { UserModule } from './../user/user.module';
 import { PinController } from './pin.controller';
+import { PinRepository } from './pin.repository';
 import { PinService } from './pin.service';
 import { Pin, PinSchema } from './schemas/pin.schema';
 
 @Module({
   imports: [
     LikeModule,
+    HateModule,
     UserModule,
     MongooseModule.forFeature([{ name: Pin.name, schema: PinSchema }]),
   ],

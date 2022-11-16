@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
-import { InCreateLikeDto } from './../like/dto/inCreateLike.dto';
+import { HateService } from 'src/hate/hate.service';
 import { LikeService } from './../like/like.service';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
-import { InSetPinLike } from './dto/in_set_pin_like.dto';
 import { PinRepository } from './pin.repository';
 import { Pin } from './schemas/pin.schema';
 
@@ -13,6 +12,7 @@ export class PinService {
   constructor(
     private readonly pinRepository: PinRepository,
     private readonly likeService: LikeService,
+    private readonly hateService: HateService,
   ) {}
 
   async createPin(
@@ -38,26 +38,33 @@ export class PinService {
 
   async getPin(_id: ObjectId, userId: ObjectId): Promise<Pin> {
     // const id = new mongoose.Schema.Types.ObjectId(_id);
-    const count: number = await this.likeService.getLikeCount(_id);
+    const likeCount: number = await this.likeService.getLikeCount(_id);
+    const hateCount: number = await this.hateService.getHateCount(_id);
     const result = await this.pinRepository.findOne({ _id });
-    console.log('count' + count);
-    result.likeCount = count;
+    console.log('count' + likeCount);
+    result.likeCount = likeCount;
+    result.hateCount = hateCount;
 
     const isLiked = await this.likeService.isLikedByMe(_id, userId);
     console.log(isLiked);
     if (isLiked) result.isLiked = true;
     else result.isLiked = false;
 
+    const isHated = await this.hateService.isHatedByMe(_id, userId);
+    console.log(isHated);
+    if (isHated) result.isHated = true;
+    else result.isHated = false;
+
     return result;
   }
 
-  async setPinLike(
-    inSetPinLike: InSetPinLike,
-    userId: ObjectId,
-  ): Promise<void> {
-    const inCreateLikeDto: InCreateLikeDto = {
-      pinId: inSetPinLike._id.toString(),
-    };
-    this.likeService.setPinLike(inCreateLikeDto, userId);
-  }
+  // async setPinLike(
+  //   inSetPinLike: InSetPinLike,
+  //   userId: ObjectId,
+  // ): Promise<void> {
+  //   const inCreateLikeDto: InCreateLikeDto = {
+  //     pinId: inSetPinLike._id.toString(),
+  //   };
+  //   this.likeService.setPinLike(inCreateLikeDto, userId);
+  // }
 }

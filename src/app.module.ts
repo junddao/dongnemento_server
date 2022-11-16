@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { PinModule } from './pin/pin.module';
 import { ReplyModule } from './reply/reply.module';
 import { LikeModule } from './like/like.module';
+import { HateModule } from './hate/hate.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LikeModule } from './like/like.module';
     PinModule,
     ReplyModule,
     LikeModule,
+    HateModule,
   ],
   controllers: [AppController],
   providers: [AppService],

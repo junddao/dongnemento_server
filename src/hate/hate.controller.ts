@@ -4,21 +4,22 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
-import { InCreateLikeDto } from './dto/inCreateLike.dto';
-import { LikeService } from './like.service';
-@ApiTags('like')
-@Controller('like')
-export class LikeController {
-  constructor(private readonly likeService: LikeService) {}
+import { InCreateHateDto } from './dto/inCreateHate.dto';
+import { HateService } from './hate.service';
 
-  @ApiOperation({ summary: 'Pin like 생성' })
+@ApiTags('hate')
+@Controller('hate')
+export class HateController {
+  constructor(private readonly hateService: HateService) {}
+
+  @ApiOperation({ summary: 'Pin hate 생성' })
   @Post('/pin')
   @UseGuards(AuthGuard())
-  async setPinLike(
-    @Body() inCreateLikeDto: InCreateLikeDto,
+  async setPinHate(
+    @Body() inCreateHateDto: InCreateHateDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<null>> {
-    await this.likeService.setPinLike(inCreateLikeDto, user._id);
+    await this.hateService.setPinHate(inCreateHateDto, user._id);
     return {
       success: true,
       error: null,

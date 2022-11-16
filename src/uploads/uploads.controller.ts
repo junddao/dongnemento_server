@@ -1,15 +1,15 @@
 import {
   Controller,
   Post,
-  UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import * as AWS from 'aws-sdk';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { UploadsService } from './uploads.service';
 
+@ApiTags('upload')
 @Controller('upload')
 export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}

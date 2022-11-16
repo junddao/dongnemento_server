@@ -7,7 +7,6 @@ import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
-import { InSetPinLike } from './dto/in_set_pin_like.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
 import { PinService } from './pin.service';
@@ -63,20 +62,20 @@ export class PinController {
     };
   }
 
-  @ApiOperation({ summary: '좋아요 생성' })
-  @Post('/like')
-  @UseGuards(AuthGuard())
-  async setPinLike(
-    @Body() inSetPinLike: InSetPinLike,
-    @GetUser() user: User,
-  ): Promise<ResponseDto<boolean>> {
-    console.log(inSetPinLike);
-    await this.pinService.setPinLike(inSetPinLike, user._id);
+  // @ApiOperation({ summary: '좋아요 생성' })
+  // @Post('/like')
+  // @UseGuards(AuthGuard())
+  // async setPinLike(
+  //   @Body() inSetPinLike: InSetPinLike,
+  //   @GetUser() user: User,
+  // ): Promise<ResponseDto<boolean>> {
+  //   console.log(inSetPinLike);
+  //   await this.pinService.setPinLike(inSetPinLike, user._id);
 
-    return {
-      success: true,
-      error: null,
-      data: null,
-    };
-  }
+  //   return {
+  //     success: true,
+  //     error: null,
+  //     data: null,
+  //   };
+  // }
 }
