@@ -27,8 +27,8 @@ export class InCreatePinDto {
   title: string;
 
   @ApiProperty({
-    example: '제목입니다.',
-    description: '제목',
+    example: '이미지.',
+    description: '이미지',
     required: true,
   })
   @IsNotEmpty()

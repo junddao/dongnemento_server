@@ -36,7 +36,6 @@ export class PinController {
   @UseGuards(AuthGuard())
   async getPins(
     @Body() inGetPinsDto: InGetPinsDto,
-    @GetUser() user: User,
   ): Promise<ResponseDto<OutGetPinsDto>> {
     const data = await this.pinService.getPins(inGetPinsDto);
     return {
