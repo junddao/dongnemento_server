@@ -1,12 +1,12 @@
-import { JwtStrategy } from './jwt.strategy';
-import { UsersRepository } from './users.repository';
-import { User, UserSchema } from './schemas/user.schema';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { JwtModule } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
+import { User, UserSchema } from './schemas/user.schema';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { UsersRepository } from './users.repository';
 
 @Module({
   imports: [

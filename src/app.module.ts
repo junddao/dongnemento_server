@@ -3,14 +3,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HateModule } from './hate/hate.module';
+import { LikeModule } from './like/like.module';
 import { LoggerMiddleware } from './logger.middleware';
+import { PinModule } from './pin/pin.module';
 import { RecordModule } from './record/record.module';
+import { ReplyModule } from './reply/reply.module';
+import { ReportModule } from './report/report.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { UserModule } from './user/user.module';
-import { PinModule } from './pin/pin.module';
-import { ReplyModule } from './reply/reply.module';
-import { LikeModule } from './like/like.module';
-import { HateModule } from './hate/hate.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { HateModule } from './hate/hate.module';
     ReplyModule,
     LikeModule,
     HateModule,
+    ReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
