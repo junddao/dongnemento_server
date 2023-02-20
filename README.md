@@ -36,7 +36,7 @@ $ yarn install
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
 $ npm run start:dev
