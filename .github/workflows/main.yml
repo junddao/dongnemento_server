@@ -5,7 +5,7 @@ on:
     branches: [ "develop" ]
 
 env:
-  DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/dongnemento_server
+  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/dongnemento_server
   VERSION: ${{ github.sha }}
   NAME: cicd_test
 
