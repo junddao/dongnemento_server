@@ -39,7 +39,7 @@ $ yarn install
 $ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
 $ npm run start:prod
