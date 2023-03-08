@@ -1,9 +1,7 @@
-import { isNotEmpty } from 'class-validator';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
-import { InSetPinLike } from './dto/in_set_pin_like.dto';
 import { Pin, PinDocument } from './schemas/pin.schema';
 
 @Injectable()
@@ -23,31 +21,12 @@ export class PinRepository {
   }
 
   async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<Pin> {
-    const selectedPin = await this.pinModel.findOne(pinFilterQuery);
-    // const result = await this.pinModel.aggregate([
-    //   {
-    //     $match: {
-    //       _id: selectedPin._id,
-    //     },
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: 'like',
-    //       localField: '_id',
-    //       foreignField: 'pinId',
-    //       as: 'isLiked',
-    //     },
-    //   },
-    //   {
-    //     $count: 'total_like_count',
-    //   },
-    // ]);
+    const selectedPin = await this.pinModel
+      .findOne(pinFilterQuery)
+      .populate('authorUser');
 
-    // console.log(result);
+    console.log(selectedPin);
 
-    // selectedPin.likeCount = parseInt(result[0]['total_like_count']);
-    // console.log(selectedPin);
-    // console.log(result[0]['total_like_count']);
     return selectedPin;
   }
 

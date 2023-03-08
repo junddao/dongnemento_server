@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { ObjectId } from 'mongoose';
+import { User } from 'src/user/schemas/user.schema';
 
 export type PinDocument = Pin & Document;
 
@@ -9,6 +10,14 @@ export class Pin {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   userId: ObjectId;
+
+  @Prop({
+    ref: 'User',
+    localField: 'userId',
+    foreignField: '_id',
+    justOne: true,
+  })
+  authorUser: User;
 
   @Prop({ require: true })
   lat: number;

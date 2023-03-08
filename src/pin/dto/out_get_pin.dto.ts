@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { ObjectId } from 'mongoose';
+import { Pin } from './../schemas/pin.schema';
 
 export class OutGetPinDto {
   @ApiProperty({
@@ -34,6 +35,22 @@ export class OutGetPinDto {
   })
   @IsNotEmpty()
   userId: ObjectId;
+
+  @ApiProperty({
+    example: '홍길동',
+    description: '핀 생성 유저의 id',
+    required: true,
+  })
+  @IsNotEmpty()
+  userName: string;
+
+  @ApiProperty({
+    example: '홍길동',
+    description: '핀 생성 유저의 id',
+    required: true,
+  })
+  @IsNotEmpty()
+  userProfileImage: string;
 
   @ApiProperty({
     example: '제목입니다.',
@@ -105,4 +122,23 @@ export class OutGetPinDto {
   })
   @IsNotEmpty()
   updatedAt: Date;
+
+  static from(pin: Pin): OutGetPinDto {
+    const outGetPinDto = new OutGetPinDto();
+    outGetPinDto._id = pin._id;
+    outGetPinDto.lat = pin.lat;
+    outGetPinDto.lng = pin.lng;
+    outGetPinDto.userId = pin.authorUser._id;
+    outGetPinDto.userProfileImage = pin.authorUser.profileImage;
+    outGetPinDto.title = pin.title;
+    outGetPinDto.images = pin.images;
+    outGetPinDto.body = pin.body;
+    outGetPinDto.likeCount = pin.likeCount;
+    outGetPinDto.isLiked = pin.isLiked;
+    outGetPinDto.hateCount = pin.hateCount;
+    outGetPinDto.isHated = pin.isHated;
+    outGetPinDto.createdAt = pin.createdAt;
+    outGetPinDto.updatedAt = pin.updatedAt;
+    return outGetPinDto;
+  }
 }
