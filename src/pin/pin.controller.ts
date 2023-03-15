@@ -38,6 +38,7 @@ export class PinController {
     @Body() inGetPinsDto: InGetPinsDto,
   ): Promise<ResponseDto<OutGetPinsDto>> {
     const data = await this.pinService.getPins(inGetPinsDto);
+    // const newData: OutGetPinsDto[] = OutGetPinsDto.from(data);
     return {
       success: true,
       error: null,
@@ -54,11 +55,11 @@ export class PinController {
     @GetUser() user: User,
   ): Promise<ResponseDto<OutGetPinDto>> {
     const data = await this.pinService.getPin(id, user._id);
-    const newData: OutGetPinDto = OutGetPinDto.from(data);
+    // const newData: OutGetPinDto = OutGetPinDto.from(data);
     return {
       success: true,
       error: null,
-      data: [newData],
+      data: [data],
     };
   }
 

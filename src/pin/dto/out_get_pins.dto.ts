@@ -73,4 +73,23 @@ export class OutGetPinsDto {
   })
   @IsNotEmpty()
   updatedAt: Date;
+
+  // static from(pins: Pin[]): OutGetPinsDto[] {
+  //   const newPins = [];
+  //   for (const pin of pins) {
+  //     const outGetPinDto = new OutGetPinsDto();
+  //     outGetPinDto._id = pin._id;
+  //     outGetPinDto.lat = pin.lat;
+  //     outGetPinDto.lng = pin.lng;
+  //     outGetPinDto.userId = pin.user._id;
+  //     outGetPinDto.title = pin.title;
+  //     outGetPinDto.images = pin.images;
+  //     outGetPinDto.body = pin.body;
+  //     outGetPinDto.createdAt = pin.createdAt;
+  //     outGetPinDto.updatedAt = pin.updatedAt;
+  //     newPins.push(pin);
+  //   }
+
+  //   return newPins;
+  // }
 }

@@ -4,6 +4,7 @@ import { HateService } from 'src/hate/hate.service';
 import { LikeService } from './../like/like.service';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
+import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { PinRepository } from './pin.repository';
 import { Pin } from './schemas/pin.schema';
 
@@ -36,7 +37,7 @@ export class PinService {
     });
   }
 
-  async getPin(_id: ObjectId, userId: ObjectId): Promise<Pin> {
+  async getPin(_id: ObjectId, userId: ObjectId): Promise<OutGetPinDto> {
     // const id = new mongoose.Schema.Types.ObjectId(_id);
     const likeCount: number = await this.likeService.getLikeCount(_id);
     const hateCount: number = await this.hateService.getHateCount(_id);

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
+import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { Pin, PinDocument } from './schemas/pin.schema';
 
 @Injectable()
@@ -20,14 +21,16 @@ export class PinRepository {
     return this.pinModel.find(pinFilterQuery);
   }
 
-  async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<Pin> {
+  async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<OutGetPinDto> {
     const selectedPin = await this.pinModel
       .findOne(pinFilterQuery)
-      .populate('authorUser');
-
+      .populate('authorUser')
+      .exec();
+    console.log(selectedPin.authorUser.name);
     console.log(selectedPin);
+    return OutGetPinDto.from(selectedPin);
 
-    return selectedPin;
+    // return selectedPin;
   }
 
   // async setLike(inSetPinLike: InSetPinLike): Promise<boolean> {

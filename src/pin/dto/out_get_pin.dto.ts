@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { ObjectId } from 'mongoose';
-import { Pin } from './../schemas/pin.schema';
+import { PinDocument } from './../schemas/pin.schema';
 
 export class OutGetPinDto {
   @ApiProperty({
@@ -123,7 +123,7 @@ export class OutGetPinDto {
   @IsNotEmpty()
   updatedAt: Date;
 
-  static from(pin: Pin): OutGetPinDto {
+  static from(pin: PinDocument): OutGetPinDto {
     const outGetPinDto = new OutGetPinDto();
     outGetPinDto._id = pin._id;
     outGetPinDto.lat = pin.lat;

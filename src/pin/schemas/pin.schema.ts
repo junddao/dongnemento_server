@@ -1,23 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { ObjectId } from 'mongoose';
-import { User } from 'src/user/schemas/user.schema';
+import { UserDocument } from './../../user/schemas/user.schema';
 
-export type PinDocument = Pin & Document;
+export type PinDocument = Pin &
+  Document & {
+    authorUser: UserDocument;
+  };
 
 @Schema({ timestamps: true })
 export class Pin {
   _id: ObjectId;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   userId: ObjectId;
 
-  @Prop({
-    ref: 'User',
-    localField: 'userId',
-    foreignField: '_id',
-    justOne: true,
-  })
-  authorUser: User;
+  // @Prop({
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   justOne: true,
+  //   localField: 'userId',
+  //   foreignField: '_id',
+  //   ref: 'User',
+  // })
+  // authorUser?: User;
 
   @Prop({ require: true })
   lat: number;
@@ -54,3 +58,10 @@ export class Pin {
 }
 
 export const PinSchema = SchemaFactory.createForClass(Pin);
+
+PinSchema.virtual('authorUser', {
+  ref: 'User', // 참조할 collections
+  localField: 'userId', // 현재 스키마에 선언되어 있는 참조할 필드
+  foreignField: '_id', // collections에서 참조할 필드
+  justOne: true, // 하나만 반환하는지 여부
+});
