@@ -1,26 +1,28 @@
-import { OutGetUserDto } from './dto/out_get_user.dto';
-import { ApiResponseDto, ResponseDto } from '../common/dto/response.dto';
-import { OutSignInKakaoDto } from './dto/out_sign_in_kakao.dto';
-import { InSignUpDto } from './dto/in_sign_up.dto';
-import { UserService } from './user.service';
 import {
   Body,
   Controller,
   Get,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { InSignInDto } from './dto/in_sign_in.dto';
-import { InUpdateUserDto } from './dto/in_update_user.dto';
-import { InSignInKakaoDto } from './dto/in_sign_in_kakao.dto';
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { OutGetMeDto } from './dto/out_get_me.dto';
-import { OutSignInDto } from './dto/out_sign_in.dto';
-import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
+import { ApiResponseDto, ResponseDto } from '../common/dto/response.dto';
+import { InBlockDto } from './dto/in_block.dto';
 import { InGetTokenDto } from './dto/in_get_token.dto';
+import { InSignInDto } from './dto/in_sign_in.dto';
+import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
+import { InSignInKakaoDto } from './dto/in_sign_in_kakao.dto';
+import { InSignUpDto } from './dto/in_sign_up.dto';
+import { InUpdateUserDto } from './dto/in_update_user.dto';
+import { OutGetMeDto } from './dto/out_get_me.dto';
+import { OutGetUserDto } from './dto/out_get_user.dto';
+import { OutSignInDto } from './dto/out_sign_in.dto';
+import { OutSignInKakaoDto } from './dto/out_sign_in_kakao.dto';
+import { UserService } from './user.service';
 
 @ApiTags('User')
 @Controller('user')
@@ -131,6 +133,22 @@ export class UserController {
     @Body() inUpdateUserDto: InUpdateUserDto,
   ): Promise<ResponseDto<OutGetUserDto>> {
     const data = await this.userService.updateUser(inUpdateUserDto);
+    return {
+      success: true,
+      error: null,
+      data: [data],
+    };
+  }
+
+  @ApiOperation({ summary: '유저 정보 업데이트' })
+  @ApiResponseDto(OutGetUserDto)
+  @Put('/block')
+  @UseGuards(AuthGuard())
+  async blockUser(
+    @Req() req,
+    @Body() inBlockDto: InBlockDto,
+  ): Promise<ResponseDto<OutGetUserDto>> {
+    const data = await this.userService.blockUser(inBlockDto, req.user);
     return {
       success: true,
       error: null,

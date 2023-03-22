@@ -130,6 +130,7 @@ export class OutGetPinDto {
     outGetPinDto.lng = pin.lng;
     outGetPinDto.userId = pin.authorUser._id;
     outGetPinDto.userProfileImage = pin.authorUser.profileImage;
+    outGetPinDto.userName = pin.authorUser.name;
     outGetPinDto.title = pin.title;
     outGetPinDto.images = pin.images;
     outGetPinDto.body = pin.body;
@@ -139,6 +140,7 @@ export class OutGetPinDto {
     outGetPinDto.isHated = pin.isHated;
     outGetPinDto.createdAt = pin.createdAt;
     outGetPinDto.updatedAt = pin.updatedAt;
+
     return outGetPinDto;
   }
 }

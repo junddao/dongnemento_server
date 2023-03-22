@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import mongoose, { Document, ObjectId } from 'mongoose';
 
 export type UserDocument = User & Document;
@@ -31,6 +30,9 @@ export class User {
 
   @Prop()
   pushEnabled: boolean;
+
+  @Prop()
+  isBlocked: boolean;
 
   @Prop()
   lat: number | null;

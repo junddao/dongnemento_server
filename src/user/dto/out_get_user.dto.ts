@@ -28,6 +28,14 @@ export class OutGetUserDto {
   name: string;
 
   @ApiProperty({
+    example: 'true',
+    description: '차단 여부',
+    required: true,
+  })
+  @IsNotEmpty()
+  isBlocked: boolean;
+
+  @ApiProperty({
     example: '안녕하세요. 미로입니다.',
     description: '소개글',
     required: false,

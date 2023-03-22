@@ -11,7 +11,7 @@ export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
   @ApiOperation({ summary: 'Report 생성' })
-  @Post('/report')
+  @Post('/create')
   @UseGuards(AuthGuard())
   async createReport(
     @Body() inCreateReportDto: InCreateReportDto,

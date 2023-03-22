@@ -1,15 +1,15 @@
 import {
   ConflictException,
-  ConsoleLogger,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcryptjs';
 import { FilterQuery, Model } from 'mongoose';
+import { InBlockDto } from './dto/in_block.dto';
 import { InSignUpDto } from './dto/in_sign_up.dto';
 import { InUpdateUserDto } from './dto/in_update_user.dto';
 import { User, UserDocument } from './schemas/user.schema';
-import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersRepository {
@@ -46,8 +46,6 @@ export class UsersRepository {
     userFilterQuery: FilterQuery<User>,
     inUpdateUserDto: InUpdateUserDto,
   ): Promise<User> {
-    // const { email, password, name } = authCredentialsDto;
-    // const { name, profileImage, status } = inUpdateUserDto;
     console.log(userFilterQuery);
 
     try {
@@ -59,10 +57,30 @@ export class UsersRepository {
     }
   }
 
+  async findOneAndBlock(
+    userFilterQuery: FilterQuery<User>,
+    inBlockDto: InBlockDto,
+  ): Promise<User> {
+    const { isBlocked } = inBlockDto;
+    console.log(userFilterQuery);
+
+    try {
+      return this.userModel.findOneAndUpdate(
+        userFilterQuery,
+        { isBlocked },
+        {
+          new: true,
+        },
+      );
+    } catch (e) {
+      throw new InternalServerErrorException();
+    }
+  }
   async findOneAndDrop(
     userFilterQuery: FilterQuery<User>,
     updateFilterQuery: FilterQuery<User>,
   ): Promise<User> {
+    const { userId } = userFilterQuery;
     const { status } = updateFilterQuery;
     console.log(userFilterQuery);
 

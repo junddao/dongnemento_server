@@ -1,20 +1,21 @@
+import { ConflictException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as firebase from 'firebase-admin';
+import { InBlockDto } from './dto/in_block.dto';
 import { InGetTokenDto } from './dto/in_get_token.dto';
+import { InSignInDto } from './dto/in_sign_in.dto';
 import { InSignInKakaoDto } from './dto/in_sign_in_kakao.dto';
 import { InSignUpDto } from './dto/in_sign_up.dto';
-import { UsersRepository } from './users.repository';
-import { ConflictException, Injectable } from '@nestjs/common';
-import { User } from './schemas/user.schema';
-import { JwtService } from '@nestjs/jwt';
 import { InUpdateUserDto } from './dto/in_update_user.dto';
-import { InSignInDto } from './dto/in_sign_in.dto';
-import * as firebase from 'firebase-admin';
+import { User } from './schemas/user.schema';
+import { UsersRepository } from './users.repository';
 // import * as serviceAccount from './serviceAccountKey.json';
 import * as serviceAccount from './serviceAccountKey.json';
 
+import * as bcrypt from 'bcryptjs';
+import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
 import { OutSignInDto } from './dto/out_sign_in.dto';
 import { OutSignInKakaoDto } from './dto/out_sign_in_kakao.dto';
-import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
-import * as bcrypt from 'bcryptjs';
 
 const firebase_params = {
   type: serviceAccount.type,
@@ -167,5 +168,13 @@ export class UserService {
   async updateUser(inUpdateUserDto: InUpdateUserDto): Promise<User> {
     const { email } = inUpdateUserDto;
     return this.usersRepository.findOneAndUpdate({ email }, inUpdateUserDto);
+  }
+  async blockUser(inBlockDto: InBlockDto, user: User): Promise<User> {
+    const { userId } = inBlockDto;
+
+    if (user._id.toString() == inBlockDto.userId.toString()) {
+      throw new ConflictException('can not block myself');
+    }
+    return this.usersRepository.findOneAndBlock({ userId }, inBlockDto);
   }
 }
