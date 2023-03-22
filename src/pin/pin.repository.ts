@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
@@ -33,25 +33,14 @@ export class PinRepository {
     // return selectedPin;
   }
 
-  // async setLike(inSetPinLike: InSetPinLike): Promise<boolean> {
-  //   const result = await this.pinModel.aggregate([
-  //     {
-  //       $match: {
-  //         _id: inSetPinLike._id,
-  //       },
-  //     },
-  //     {
-  //       $lookup: {
-  //         from: 'pinLikes',
-  //         localField: '_id',
-  //         foreignField: 'pinId',
-  //         as: 'isLiked',
-  //       },
-  //     },
-  //   ]);
-  //   console.log(result);
-
-  //   if (result.length == 0) return false;
-  //   else return true;
-  // }
+  async delete(pinFilterQuery: FilterQuery<Pin>): Promise<void> {
+    try {
+      const result = await this.pinModel.deleteOne(pinFilterQuery);
+      if (result.deletedCount === 0) {
+        throw new NotFoundException(`can't find id`);
+      }
+    } catch (e) {
+      throw new NotFoundException(`can't delete this id`);
+    }
+  }
 }

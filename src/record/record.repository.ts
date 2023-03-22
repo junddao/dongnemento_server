@@ -1,9 +1,8 @@
-import { User, UserDocument } from './../user/schemas/user.schema';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { InCreateRecordDto } from './dto/in_create_record.dto';
 import { Record, RecordDocument } from './schemas/record.schema';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, FilterQuery, ObjectId } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class RecordRepository {

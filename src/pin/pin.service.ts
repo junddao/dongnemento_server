@@ -59,13 +59,7 @@ export class PinService {
     return result;
   }
 
-  // async setPinLike(
-  //   inSetPinLike: InSetPinLike,
-  //   userId: ObjectId,
-  // ): Promise<void> {
-  //   const inCreateLikeDto: InCreateLikeDto = {
-  //     pinId: inSetPinLike._id.toString(),
-  //   };
-  //   this.likeService.setPinLike(inCreateLikeDto, userId);
-  // }
+  async deletePin(_id: string): Promise<void> {
+    await this.pinRepository.delete({ _id });
+  }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
@@ -63,20 +71,15 @@ export class PinController {
     };
   }
 
-  // @ApiOperation({ summary: '좋아요 생성' })
-  // @Post('/like')
-  // @UseGuards(AuthGuard())
-  // async setPinLike(
-  //   @Body() inSetPinLike: InSetPinLike,
-  //   @GetUser() user: User,
-  // ): Promise<ResponseDto<boolean>> {
-  //   console.log(inSetPinLike);
-  //   await this.pinService.setPinLike(inSetPinLike, user._id);
-
-  //   return {
-  //     success: true,
-  //     error: null,
-  //     data: null,
-  //   };
-  // }
+  @ApiOperation({ summary: 'pin 삭제' })
+  @Delete('/delete/:id')
+  @UseGuards(AuthGuard())
+  async deletePin(@Param('id') id: string): Promise<ResponseDto<null>> {
+    await this.pinService.deletePin(id);
+    return {
+      success: true,
+      error: null,
+      data: null,
+    };
+  }
 }
