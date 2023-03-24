@@ -8,9 +8,6 @@ export class User {
   _id: ObjectId;
 
   @Prop()
-  fbUid: string;
-
-  @Prop()
   email: string;
 
   @Prop()

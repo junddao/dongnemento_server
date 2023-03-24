@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { isNotEmpty, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class InSignInAppleDto {
   @ApiProperty({
@@ -9,14 +9,6 @@ export class InSignInAppleDto {
   })
   @IsNotEmpty()
   email: string;
-
-  @ApiProperty({
-    example: ' ',
-    description: 'firebase id',
-    required: true,
-  })
-  @IsNotEmpty()
-  uid: string;
 
   @ApiProperty({
     example: '홍길동',

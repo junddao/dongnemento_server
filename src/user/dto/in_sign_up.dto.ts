@@ -3,14 +3,6 @@ import { IsNotEmpty } from 'class-validator';
 
 export class InSignUpDto {
   @ApiProperty({
-    example: ' ',
-    description: 'firebase id',
-    required: true,
-  })
-  @IsNotEmpty()
-  uid: string;
-
-  @ApiProperty({
     example: 'kakao or apple',
     description: '로그인 소셜명',
     required: true,

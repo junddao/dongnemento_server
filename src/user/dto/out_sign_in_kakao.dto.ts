@@ -3,10 +3,10 @@ import { IsNotEmpty } from 'class-validator';
 
 export class OutSignInKakaoDto {
   @ApiProperty({
-    example: 'firebase custom token',
-    description: 'adfasdfasdf',
+    example: 'jwt',
+    description: 'token',
     required: true,
   })
   @IsNotEmpty()
-  fbCustomToken: string;
+  accessToken: string;
 }

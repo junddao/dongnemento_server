@@ -100,7 +100,6 @@ export class UserService {
   }
 
   async signInApple(inSignInAppleDto: InSignInAppleDto): Promise<void> {
-    const uid = inSignInAppleDto.uid;
     const { email } = inSignInAppleDto;
     const updateParams = {
       email: inSignInAppleDto.email,
@@ -114,7 +113,6 @@ export class UserService {
       profileImage: updateParams.profileImage,
       social: 'apple',
       password: 'applepassword',
-      uid: uid,
       lat: null,
       lng: null,
       address: null,
@@ -130,7 +128,6 @@ export class UserService {
   async signInKakao(
     inSignInKakaoDto: InSignInKakaoDto,
   ): Promise<OutSignInKakaoDto> {
-    const uid = inSignInKakaoDto.uid;
     const updateParams = {
       email: inSignInKakaoDto.email,
       profileImage: inSignInKakaoDto.profileImage,
@@ -140,29 +137,23 @@ export class UserService {
 
     const user = await this.usersRepository.findOne({ email });
     if (user != null) {
-      await this.admin.auth().updateUser(uid, updateParams);
-    } else {
-      updateParams['uid'] = uid;
-      updateParams['social'] = 'kakao';
-
       const newUser: InSignUpDto = {
         email: updateParams.email,
         name: updateParams.name ?? 'no name',
         profileImage: updateParams.profileImage,
         social: 'kakao',
         password: 'kakaopassword',
-        uid: uid,
         lat: null,
         lng: null,
         address: null,
       };
-      await this.admin.auth().createUser(newUser);
+      // await this.admin.auth().createUser(newUser);
       await this.usersRepository.create(newUser);
     }
 
-    const fbCustomToken = await this.admin.auth().createCustomToken(uid);
+    //TODO sign in  하고 토큰 생성 후 return
 
-    return { fbCustomToken };
+    return { accessToken: '' };
   }
 
   async updateUser(inUpdateUserDto: InUpdateUserDto): Promise<User> {
