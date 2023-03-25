@@ -15,7 +15,6 @@ import * as serviceAccount from './serviceAccountKey.json';
 import * as bcrypt from 'bcryptjs';
 import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
 import { OutSignInDto } from './dto/out_sign_in.dto';
-import { OutSignInKakaoDto } from './dto/out_sign_in_kakao.dto';
 
 const firebase_params = {
   type: serviceAccount.type,
@@ -125,9 +124,7 @@ export class UserService {
     await this.usersRepository.create(newUser);
   }
 
-  async signInKakao(
-    inSignInKakaoDto: InSignInKakaoDto,
-  ): Promise<OutSignInKakaoDto> {
+  async signInKakao(inSignInKakaoDto: InSignInKakaoDto): Promise<OutSignInDto> {
     const updateParams = {
       email: inSignInKakaoDto.email,
       profileImage: inSignInKakaoDto.profileImage,
@@ -135,8 +132,8 @@ export class UserService {
     };
     const { email } = inSignInKakaoDto;
 
-    const user = await this.usersRepository.findOne({ email });
-    if (user != null) {
+    let user = await this.usersRepository.findOne({ email });
+    if (user == null) {
       const newUser: InSignUpDto = {
         email: updateParams.email,
         name: updateParams.name ?? 'no name',
@@ -149,11 +146,19 @@ export class UserService {
       };
       // await this.admin.auth().createUser(newUser);
       await this.usersRepository.create(newUser);
+      user = await this.usersRepository.findOne({ email });
     }
 
-    //TODO sign in  하고 토큰 생성 후 return
-
-    return { accessToken: '' };
+    if (user.status == 'drop') {
+      return { accessToken: '' };
+    }
+    if (user) {
+      const payload = { email };
+      const accessToken = await this.jwtService.sign(payload);
+      return { accessToken };
+    } else {
+      throw new ConflictException('user not exist');
+    }
   }
 
   async updateUser(inUpdateUserDto: InUpdateUserDto): Promise<User> {

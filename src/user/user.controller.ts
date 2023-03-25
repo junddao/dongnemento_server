@@ -21,7 +21,6 @@ import { InUpdateUserDto } from './dto/in_update_user.dto';
 import { OutGetMeDto } from './dto/out_get_me.dto';
 import { OutGetUserDto } from './dto/out_get_user.dto';
 import { OutSignInDto } from './dto/out_sign_in.dto';
-import { OutSignInKakaoDto } from './dto/out_sign_in_kakao.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')
@@ -157,11 +156,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: '카카오 로그인' })
-  @ApiResponseDto(OutSignInKakaoDto)
+  @ApiResponseDto(OutSignInDto)
   @Post('/kakao')
   async signInKakao(
     @Body() inSignInKakao: InSignInKakaoDto,
-  ): Promise<ResponseDto<OutSignInKakaoDto>> {
+  ): Promise<ResponseDto<OutSignInDto>> {
     const data = await this.userService.signInKakao(inSignInKakao);
     return {
       success: true,
@@ -171,7 +170,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: '애플 로그인' })
-  @ApiResponseDto(OutSignInKakaoDto)
+  @ApiResponseDto(OutSignInDto)
   @Post('/apple')
   async signInApple(
     @Body() inSignInApple: InSignInAppleDto,
