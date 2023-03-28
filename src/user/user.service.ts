@@ -12,6 +12,9 @@ import { UsersRepository } from './users.repository';
 // import * as serviceAccount from './serviceAccountKey.json';
 import * as serviceAccount from './serviceAccountKey.json';
 
+import * as jwt from 'jsonwebtoken';
+import { JwksClient } from 'jwks-rsa';
+
 import * as bcrypt from 'bcryptjs';
 import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
 import { OutSignInDto } from './dto/out_sign_in.dto';
@@ -28,6 +31,21 @@ const firebase_params = {
   authProviderX509CertUrl: serviceAccount.auth_provider_x509_cert_url,
   clientC509CertUrl: serviceAccount.client_x509_cert_url,
 };
+
+interface AppleJwtTokenPayload {
+  iss: string;
+  aud: string;
+  exp: number;
+  iat: number;
+  sub: string;
+  nonce: string;
+  c_hash: string;
+  email?: string;
+  email_verified?: string;
+  is_private_email?: string;
+  auth_time: number;
+  nonce_supported: boolean;
+}
 
 @Injectable()
 export class UserService {
@@ -98,30 +116,61 @@ export class UserService {
     }
   }
 
-  async signInApple(inSignInAppleDto: InSignInAppleDto): Promise<void> {
-    const { email } = inSignInAppleDto;
-    const updateParams = {
-      email: inSignInAppleDto.email,
-      profileImage: inSignInAppleDto.profileImage,
-      name: inSignInAppleDto.name,
+  async signInApple(inSignInAppleDto: InSignInAppleDto): Promise<OutSignInDto> {
+    const { idToken } = inSignInAppleDto;
+
+    const decodedToken = jwt.decode(idToken, { complete: true }) as {
+      header: { kid: string; alg: jwt.Algorithm };
+      payload: { sub: string };
     };
 
-    const newUser: InSignUpDto = {
-      email: updateParams.email,
-      name: updateParams.name ?? 'no name',
-      profileImage: updateParams.profileImage,
-      social: 'apple',
-      password: 'applepassword',
-      lat: null,
-      lng: null,
-      address: null,
+    const keyIdFromToken = decodedToken.header.kid;
+    const applePublicKeyUrl = 'https://appleid.apple.com/auth/keys';
+
+    const jwksClient = new JwksClient({ jwksUri: applePublicKeyUrl });
+    const key = await jwksClient.getSigningKey(keyIdFromToken);
+    const publicKey = key.getPublicKey();
+    const verifiedDecodedToken: AppleJwtTokenPayload = jwt.verify(
+      idToken,
+      publicKey,
+      {
+        algorithms: [decodedToken.header.alg],
+      },
+    ) as AppleJwtTokenPayload;
+
+    if (verifiedDecodedToken.email == null)
+      throw new ConflictException('email not exist');
+
+    const payload = {
+      email: verifiedDecodedToken.email,
     };
 
-    const user = await this.usersRepository.findOne({ email });
-    if (user != null) {
-      return;
+    let user = await this.usersRepository.findOne(payload);
+    if (user == null) {
+      const newUser: InSignUpDto = {
+        email: verifiedDecodedToken.email,
+        name: 'no name',
+        social: 'apple',
+        password: 'applepassword',
+        lat: null,
+        lng: null,
+        address: null,
+        profileImage: null,
+      };
+      // await this.admin.auth().createUser(newUser);
+      await this.usersRepository.create(newUser);
+      user = await this.usersRepository.findOne(payload);
     }
-    await this.usersRepository.create(newUser);
+
+    if (user.status == 'drop') {
+      return { accessToken: '' };
+    }
+    if (user) {
+      const accessToken = await this.jwtService.sign(payload);
+      return { accessToken };
+    } else {
+      throw new ConflictException('user not exist');
+    }
   }
 
   async signInKakao(inSignInKakaoDto: InSignInKakaoDto): Promise<OutSignInDto> {

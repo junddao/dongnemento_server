@@ -174,12 +174,12 @@ export class UserController {
   @Post('/apple')
   async signInApple(
     @Body() inSignInApple: InSignInAppleDto,
-  ): Promise<ResponseDto<null>> {
-    await this.userService.signInApple(inSignInApple);
+  ): Promise<ResponseDto<OutSignInDto>> {
+    const data = await this.userService.signInApple(inSignInApple);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [data],
     };
   }
 }

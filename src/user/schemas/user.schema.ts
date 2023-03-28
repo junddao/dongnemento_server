@@ -23,7 +23,7 @@ export class User {
   introduce: string;
 
   @Prop()
-  profileImage: string;
+  profileImage: string | null;
 
   @Prop()
   pushEnabled: boolean;

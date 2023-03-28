@@ -46,7 +46,7 @@ export class InSignUpDto {
   @ApiProperty({
     example: 'https://aaaa.com',
     description: '프로필 사진 경로',
-    required: true,
+    // required: true,
   })
-  profileImage: string;
+  profileImage: string | null;
 }
