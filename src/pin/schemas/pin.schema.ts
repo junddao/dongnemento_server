@@ -14,15 +14,6 @@ export class Pin {
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   userId: ObjectId;
 
-  // @Prop({
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   justOne: true,
-  //   localField: 'userId',
-  //   foreignField: '_id',
-  //   ref: 'User',
-  // })
-  // authorUser?: User;
-
   @Prop({ require: true })
   lat: number;
 

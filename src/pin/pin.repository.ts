@@ -21,6 +21,32 @@ export class PinRepository {
     return this.pinModel.find(pinFilterQuery);
   }
 
+  // async findWithLike(startDate: Date, endDate: Date): Promise<Record[]> {
+  //   const result = await this.recordModel.aggregate([
+  //     {
+  //       $match: {
+  //         startTime: { $gt: startDate, $lt: endDate },
+  //       },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: 'users',
+  //         localField: 'userId',
+  //         foreignField: '_id',
+  //         as: 'user',
+  //       },
+  //     },
+  //     {
+  //       $addFields: {
+  //         userName: { $arrayElemAt: ['$user.name', 0] },
+  //         profileImage: { $arrayElemAt: ['$user.profileImage', 0] },
+  //       },
+  //     },
+  //   ]);
+
+  //   return result;
+  // }
+
   async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<OutGetPinDto> {
     const selectedPin = await this.pinModel
       .findOne(pinFilterQuery)
