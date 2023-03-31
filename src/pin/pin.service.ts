@@ -24,7 +24,7 @@ export class PinService {
   }
 
   async getPins(inGetPinsDto: InGetPinsDto): Promise<Pin[]> {
-    return this.pinRepository.find({
+    const pins = await this.pinRepository.find({
       lat: {
         $gt: inGetPinsDto.lat - inGetPinsDto.range / 90000,
         $lt: inGetPinsDto.lat + inGetPinsDto.range / 90000,
@@ -33,8 +33,24 @@ export class PinService {
         $gt: inGetPinsDto.lng - inGetPinsDto.range / 111000,
         $lt: inGetPinsDto.lng + inGetPinsDto.range / 111000,
       },
-      // userId: userId,
     });
+
+    for (let i = 0; i < pins.length; i++) {
+      const likeCount: number = await this.likeService.getLikeCount(
+        pins[i]._id,
+      );
+      const hateCount: number = await this.hateService.getHateCount(
+        pins[i]._id,
+      );
+      pins[i].likeCount = likeCount;
+      pins[i].hateCount = hateCount;
+    }
+
+    const sortedPins = pins.sort((a, b) => {
+      return a.likeCount > b.likeCount ? -1 : 1;
+    });
+
+    return sortedPins;
   }
 
   async getPin(_id: ObjectId, userId: ObjectId): Promise<OutGetPinDto> {

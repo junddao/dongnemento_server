@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseFloatPipe,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -40,11 +41,19 @@ export class PinController {
   }
 
   @ApiOperation({ summary: '위치기준 특정 거리 안에 pin들 조회' })
-  @Post('/get/pins')
+  @Get('/get/pins/:lat/:lng/:range')
   @UseGuards(AuthGuard())
   async getPins(
-    @Body() inGetPinsDto: InGetPinsDto,
+    @Param('lat', ParseFloatPipe) lat: number,
+    @Param('lng', ParseFloatPipe) lng: number,
+    @Param('range', ParseFloatPipe) range: number,
   ): Promise<ResponseDto<OutGetPinsDto>> {
+    const inGetPinsDto: InGetPinsDto = {
+      lat,
+      lng,
+      range,
+    };
+
     const data = await this.pinService.getPins(inGetPinsDto);
     // const newData: OutGetPinsDto[] = OutGetPinsDto.from(data);
     return {
