@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { ObjectId } from 'mongoose';
+import { PinDocument } from '../schemas/pin.schema';
 
 export class OutGetPinsDto {
   @ApiProperty({
@@ -34,6 +35,48 @@ export class OutGetPinsDto {
   })
   @IsNotEmpty()
   userId: ObjectId;
+
+  @ApiProperty({
+    example: '홍길동',
+    description: '핀 생성 유저의 id',
+    required: true,
+  })
+  @IsNotEmpty()
+  userName: string;
+
+  @ApiProperty({
+    example: 'false',
+    description: '핀 생성 유저의 block 상태',
+    required: true,
+    default: false,
+  })
+  @IsNotEmpty()
+  isUserBlocked: boolean;
+  @ApiProperty({
+    example: '33',
+    description: '좋아요 갯수',
+    required: false,
+    default: 0,
+  })
+  @IsNotEmpty()
+  likeCount: number;
+
+  @ApiProperty({
+    example: 'bool',
+    description: '좋아요 눌렀는지 여부',
+    required: false,
+  })
+  @IsNotEmpty()
+  isLiked: boolean;
+
+  @ApiProperty({
+    example: '33',
+    description: '댓글갯수',
+    required: true,
+    default: 0,
+  })
+  @IsNotEmpty()
+  replyCount: number;
 
   @ApiProperty({
     example: '제목입니다.',
@@ -74,22 +117,19 @@ export class OutGetPinsDto {
   @IsNotEmpty()
   updatedAt: Date;
 
-  // static from(pins: Pin[]): OutGetPinsDto[] {
-  //   const newPins = [];
-  //   for (const pin of pins) {
-  //     const outGetPinDto = new OutGetPinsDto();
-  //     outGetPinDto._id = pin._id;
-  //     outGetPinDto.lat = pin.lat;
-  //     outGetPinDto.lng = pin.lng;
-  //     outGetPinDto.userId = pin.user._id;
-  //     outGetPinDto.title = pin.title;
-  //     outGetPinDto.images = pin.images;
-  //     outGetPinDto.body = pin.body;
-  //     outGetPinDto.createdAt = pin.createdAt;
-  //     outGetPinDto.updatedAt = pin.updatedAt;
-  //     newPins.push(pin);
-  //   }
-
-  //   return newPins;
-  // }
+  static from(pin: PinDocument): OutGetPinsDto {
+    const outGetPinsDto = new OutGetPinsDto();
+    outGetPinsDto._id = pin._id;
+    outGetPinsDto.lat = pin.lat;
+    outGetPinsDto.lng = pin.lng;
+    outGetPinsDto.userId = pin.authorUser._id;
+    outGetPinsDto.isUserBlocked = pin.authorUser.isBlocked;
+    outGetPinsDto.userName = pin.authorUser.name;
+    outGetPinsDto.title = pin.title;
+    outGetPinsDto.images = pin.images;
+    outGetPinsDto.body = pin.body;
+    outGetPinsDto.createdAt = pin.createdAt;
+    outGetPinsDto.updatedAt = pin.updatedAt;
+    return outGetPinsDto;
+  }
 }

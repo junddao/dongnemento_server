@@ -31,7 +31,7 @@ export class HateService {
 
   async getHateCount(pinId: ObjectId): Promise<number> {
     const pins = await this.hateModel.find({ pinId: pinId });
-    console.log(pins);
+
     const pinCount = pins.length;
     return pinCount;
   }

@@ -20,7 +20,7 @@ export class ReplyService {
     );
   }
 
-  async getPinReplies(pinId: string): Promise<Reply[]> {
+  async getPinReplies(pinId: ObjectId): Promise<Reply[]> {
     return this.replyRepository.find({ pinId: pinId });
   }
 }

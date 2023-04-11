@@ -5,7 +5,9 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true })
 export class User {
-  _id: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, alias: 'id' })
+  _id!: ObjectId;
+  id!: ObjectId;
 
   @Prop()
   email: string;

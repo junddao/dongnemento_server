@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { HateModule } from 'src/hate/hate.module';
+import { ReplyModule } from 'src/reply/reply.module';
 import { LikeModule } from './../like/like.module';
 import { UserModule } from './../user/user.module';
 import { PinController } from './pin.controller';
@@ -11,7 +11,7 @@ import { Pin, PinSchema } from './schemas/pin.schema';
 @Module({
   imports: [
     LikeModule,
-    HateModule,
+    ReplyModule,
     UserModule,
     MongooseModule.forFeature([{ name: Pin.name, schema: PinSchema }]),
   ],

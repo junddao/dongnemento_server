@@ -34,7 +34,6 @@ export class UserController {
   @Get('/me')
   @UseGuards(AuthGuard())
   async getMe(@Req() req): Promise<ResponseDto<OutGetMeDto>> {
-    console.log(req);
     const data = await this.userService.getMe(req.user);
     return {
       success: true,

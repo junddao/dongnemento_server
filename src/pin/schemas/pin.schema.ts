@@ -1,15 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { ObjectId } from 'mongoose';
-import { UserDocument } from './../../user/schemas/user.schema';
+import { User } from './../../user/schemas/user.schema';
 
 export type PinDocument = Pin &
   Document & {
-    authorUser: UserDocument;
+    authorUser: User | null;
   };
 
 @Schema({ timestamps: true })
 export class Pin {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, alias: 'id' })
   _id: ObjectId;
+  id: ObjectId;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   userId: ObjectId;
@@ -34,6 +36,9 @@ export class Pin {
 
   @Prop({ default: false })
   isLiked: boolean;
+
+  @Prop({ default: 0 })
+  replyCount: number | null;
 
   @Prop({ default: 0 })
   hateCount: number;

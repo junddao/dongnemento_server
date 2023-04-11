@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ObjectId } from 'mongoose';
 import { ApiResponseDto, ResponseDto } from 'src/common/dto/response.dto';
 import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
@@ -32,8 +33,8 @@ export class ReplyController {
   @ApiResponseDto(OutGetPinRepliesDto)
   @Get('/get/replies/:id')
   @UseGuards(AuthGuard())
-  async getPin(
-    @Param('id') pinId: string,
+  async getPinReplies(
+    @Param('id') pinId: ObjectId,
   ): Promise<ResponseDto<OutGetPinRepliesDto>> {
     const data = await this.replyService.getPinReplies(pinId);
     return {

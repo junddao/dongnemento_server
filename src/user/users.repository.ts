@@ -46,8 +46,6 @@ export class UsersRepository {
     userFilterQuery: FilterQuery<User>,
     inUpdateUserDto: InUpdateUserDto,
   ): Promise<User> {
-    console.log(userFilterQuery);
-
     try {
       return this.userModel.findOneAndUpdate(userFilterQuery, inUpdateUserDto, {
         new: true,
@@ -62,7 +60,6 @@ export class UsersRepository {
     inBlockDto: InBlockDto,
   ): Promise<User> {
     const { isBlocked } = inBlockDto;
-    console.log(userFilterQuery);
 
     try {
       return this.userModel.findOneAndUpdate(
@@ -80,9 +77,7 @@ export class UsersRepository {
     userFilterQuery: FilterQuery<User>,
     updateFilterQuery: FilterQuery<User>,
   ): Promise<User> {
-    const { userId } = userFilterQuery;
     const { status } = updateFilterQuery;
-    console.log(userFilterQuery);
 
     try {
       return this.userModel.findOneAndUpdate(

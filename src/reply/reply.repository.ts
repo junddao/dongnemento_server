@@ -20,7 +20,6 @@ export class ReplyRepository {
   }
 
   async find(replyFilterQuery: FilterQuery<Reply>): Promise<Reply[]> {
-    console.log(replyFilterQuery);
     return this.replyModel.find(replyFilterQuery);
   }
 }

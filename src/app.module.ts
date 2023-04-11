@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, SchemaOptions } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HateModule } from './hate/hate.module';
@@ -26,6 +26,33 @@ import { UserModule } from './user/user.module';
         uri: config.get('MONGODB_URI'),
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        connectionFactory: (connection) => {
+          connection.plugin((schema) => {
+            // Define SchemaOptions to transform _id to id
+            const schemaOptions: SchemaOptions = {
+              toJSON: {
+                virtuals: true,
+                versionKey: false,
+                transform: function (doc, ret) {
+                  ret.id = ret._id;
+                  delete ret._id;
+                },
+              },
+              toObject: {
+                virtuals: true,
+                versionKey: false,
+                transform: function (doc, ret) {
+                  ret.id = ret._id;
+                  delete ret._id;
+                },
+              },
+            };
+
+            schema.set('toJSON', schemaOptions.toJSON);
+            schema.set('toObject', schemaOptions.toObject);
+          });
+          return connection;
+        },
       }),
       inject: [ConfigService],
     }),

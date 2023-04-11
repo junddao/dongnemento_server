@@ -1,9 +1,9 @@
-import { ReplyRepository } from './reply.repository';
 import { Module } from '@nestjs/common';
-import { ReplyController } from './reply.controller';
-import { ReplyService } from './reply.service';
-import { UserModule } from 'src/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from 'src/user/user.module';
+import { ReplyController } from './reply.controller';
+import { ReplyRepository } from './reply.repository';
+import { ReplyService } from './reply.service';
 import { Reply, ReplySchema } from './schemas/reply.schema';
 
 @Module({
@@ -13,5 +13,6 @@ import { Reply, ReplySchema } from './schemas/reply.schema';
   ],
   controllers: [ReplyController],
   providers: [ReplyService, ReplyRepository],
+  exports: [ReplyService],
 })
 export class ReplyModule {}

@@ -55,6 +55,7 @@ export class PinController {
     };
 
     const data = await this.pinService.getPins(inGetPinsDto);
+
     // const newData: OutGetPinsDto[] = OutGetPinsDto.from(data);
     return {
       success: true,
