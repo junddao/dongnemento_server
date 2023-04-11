@@ -61,8 +61,8 @@ export class UserService {
   }
 
   async getMe(user: User): Promise<User> {
-    const { _id } = user;
-    return this.usersRepository.findOne({ _id });
+    const { id } = user;
+    return this.usersRepository.findOne({ id });
   }
 
   async getUsers(): Promise<User[]> {
@@ -217,7 +217,7 @@ export class UserService {
   async blockUser(inBlockDto: InBlockDto, user: User): Promise<User> {
     const { userId } = inBlockDto;
 
-    if (user._id.toString() == inBlockDto.userId.toString()) {
+    if (user.id == inBlockDto.userId) {
       throw new ConflictException('can not block myself');
     }
     return this.usersRepository.findOneAndBlock({ userId }, inBlockDto);

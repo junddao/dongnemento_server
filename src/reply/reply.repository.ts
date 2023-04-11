@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, ObjectId } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { InCreatePinReplyDto } from './dto/in_create_pin_reply.dto';
 import { Reply, ReplyDocument } from './schemas/reply.schema';
 
@@ -10,7 +10,7 @@ export class ReplyRepository {
 
   async createReply(
     InCreatePinReplyDto: InCreatePinReplyDto,
-    userId: ObjectId,
+    userId: string,
     userName: string,
   ): Promise<Reply> {
     const newReply = new this.replyModel(InCreatePinReplyDto);

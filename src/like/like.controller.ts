@@ -18,7 +18,7 @@ export class LikeController {
     @Body() inCreateLikeDto: InCreateLikeDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<null>> {
-    await this.likeService.setPinLike(inCreateLikeDto, user._id);
+    await this.likeService.setPinLike(inCreateLikeDto, user.id);
     return {
       success: true,
       error: null,

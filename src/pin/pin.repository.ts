@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, ObjectId } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { Pin, PinDocument } from './schemas/pin.schema';
 
@@ -10,7 +10,7 @@ export class PinRepository {
 
   async createPin(
     InCreatePinDto: InCreatePinDto,
-    userId: ObjectId,
+    userId: string,
   ): Promise<Pin> {
     const newPin = new this.pinModel(InCreatePinDto);
     newPin.userId = userId;
@@ -25,9 +25,9 @@ export class PinRepository {
     return pins;
   }
 
-  async findOne(pinFilterQuery: FilterQuery<Pin>): Promise<PinDocument> {
+  async findById(id: string): Promise<PinDocument> {
     const selectedPin = await this.pinModel
-      .findOne(pinFilterQuery)
+      .findById(id)
       .populate('authorUser')
       .exec();
 

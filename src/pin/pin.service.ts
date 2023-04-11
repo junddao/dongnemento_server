@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ObjectId } from 'mongoose';
 import { ReplyService } from 'src/reply/reply.service';
 import { LikeService } from './../like/like.service';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
@@ -19,7 +18,7 @@ export class PinService {
 
   async createPin(
     InCreatePinDto: InCreatePinDto,
-    userId: ObjectId,
+    userId: string,
   ): Promise<Pin> {
     return this.pinRepository.createPin(InCreatePinDto, userId);
   }
@@ -41,13 +40,11 @@ export class PinService {
     });
 
     for (let i = 0; i < pins.length; i++) {
-      const likeCount: number = await this.likeService.getLikeCount(
-        pins[i]._id,
-      );
+      const likeCount: number = await this.likeService.getLikeCount(pins[i].id);
 
       pins[i].likeCount = likeCount;
       const replyCount: number = (
-        await this.replyService.getPinReplies(pins[i]._id)
+        await this.replyService.getPinReplies(pins[i].id)
       ).length;
 
       pins[i].replyCount = replyCount;
@@ -60,17 +57,17 @@ export class PinService {
     return sortedPins;
   }
 
-  async getPin(_id: ObjectId, userId: ObjectId): Promise<OutGetPinDto> {
+  async getPin(id: string, userId: string): Promise<OutGetPinDto> {
     // const id = new mongoose.Schema.Types.ObjectId(_id);
-    const likeCount: number = await this.likeService.getLikeCount(_id);
+    const likeCount: number = await this.likeService.getLikeCount(id);
 
-    const result = await this.pinRepository.findOne({ _id });
+    const result = await this.pinRepository.findById(id);
 
     result.likeCount = likeCount;
 
     const selectedPin = OutGetPinDto.from(result);
 
-    const isLiked = await this.likeService.isLikedByMe(_id, userId);
+    const isLiked = await this.likeService.isLikedByMe(id, userId);
 
     if (isLiked) selectedPin.isLiked = true;
     else selectedPin.isLiked = false;

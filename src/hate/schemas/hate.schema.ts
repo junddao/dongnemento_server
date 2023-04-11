@@ -1,17 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 export type HateDocument = Hate & Document;
 
 @Schema({ timestamps: true })
 export class Hate {
-  _id: ObjectId;
+  id: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-  userId: ObjectId;
+  userId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pin', required: true })
-  pinId: ObjectId | null;
+  pinId: string | null;
 
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Reply', required: true })
   // replyId: ObjectId | null;

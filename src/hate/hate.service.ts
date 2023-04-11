@@ -10,7 +10,7 @@ export class HateService {
 
   async setPinHate(
     inCreateHateDto: InCreateHateDto,
-    userId: ObjectId,
+    userId: string,
   ): Promise<void> {
     const exist = await this.hateModel.exists({
       pinId: inCreateHateDto.pinId,

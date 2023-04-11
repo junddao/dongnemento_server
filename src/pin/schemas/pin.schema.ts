@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { User } from './../../user/schemas/user.schema';
 
 export type PinDocument = Pin &
@@ -9,12 +9,10 @@ export type PinDocument = Pin &
 
 @Schema({ timestamps: true })
 export class Pin {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, alias: 'id' })
-  _id: ObjectId;
-  id: ObjectId;
+  id: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  userId: ObjectId;
+  userId: string;
 
   @Prop({ require: true })
   lat: number;

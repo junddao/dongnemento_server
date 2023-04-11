@@ -1,23 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 export type ReplyDocument = Reply & Document;
 
 @Schema({ timestamps: true })
 export class Reply {
-  _id: ObjectId;
+  id: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pin', required: true })
-  pinId: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  pinId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, require: true })
-  userId: ObjectId;
+  userId: string;
 
   @Prop({ require: true })
   userName: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  targetReplyId: ObjectId | null;
+  targetReplyId: string | null;
 
   @Prop({ require: true })
   reply: string;

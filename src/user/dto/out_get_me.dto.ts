@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ObjectId } from 'mongoose';
 
 export class OutGetMeDto {
   @ApiProperty({
@@ -9,7 +8,7 @@ export class OutGetMeDto {
     required: true,
   })
   @IsNotEmpty()
-  _id: ObjectId;
+  id: string;
 
   @ApiProperty({
     example: 'junddao@kakao.com',

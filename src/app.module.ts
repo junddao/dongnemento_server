@@ -7,7 +7,6 @@ import { HateModule } from './hate/hate.module';
 import { LikeModule } from './like/like.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { PinModule } from './pin/pin.module';
-import { RecordModule } from './record/record.module';
 import { ReplyModule } from './reply/reply.module';
 import { ReportModule } from './report/report.module';
 import { UploadsModule } from './uploads/uploads.module';
@@ -57,7 +56,6 @@ import { UserModule } from './user/user.module';
       inject: [ConfigService],
     }),
     UserModule,
-    RecordModule,
     UploadsModule,
     PinModule,
     ReplyModule,

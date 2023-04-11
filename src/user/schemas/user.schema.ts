@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document, ObjectId } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, alias: 'id' })
-  _id!: ObjectId;
-  id!: ObjectId;
+  // @Prop({ alias: '_id' })
+  id: string;
+  // _id: ObjectId;
 
   @Prop()
   email: string;

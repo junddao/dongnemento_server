@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ObjectId } from 'mongoose';
 
 export class OutGetPinRepliesDto {
   @ApiProperty({
@@ -9,7 +8,7 @@ export class OutGetPinRepliesDto {
     required: true,
   })
   @IsNotEmpty()
-  _id: ObjectId;
+  id: string;
 
   @ApiProperty({
     example: '123wae534e',
@@ -17,7 +16,7 @@ export class OutGetPinRepliesDto {
     required: true,
   })
   @IsNotEmpty()
-  pinId: ObjectId;
+  pinId: string;
 
   @ApiProperty({
     example: 'adsf123wdwe',
@@ -25,7 +24,7 @@ export class OutGetPinRepliesDto {
     required: true,
   })
   @IsNotEmpty()
-  userId: ObjectId;
+  userId: string;
 
   @ApiProperty({
     example: '김춘식',
@@ -40,7 +39,7 @@ export class OutGetPinRepliesDto {
     description: '리플 대상 리플의 id',
   })
   @IsNotEmpty()
-  targetReplyId: ObjectId | null;
+  targetReplyId: string | null;
 
   @ApiProperty({
     example: '리플입니다.',

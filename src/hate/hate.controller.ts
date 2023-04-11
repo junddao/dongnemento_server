@@ -19,7 +19,7 @@ export class HateController {
     @Body() inCreateHateDto: InCreateHateDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<null>> {
-    await this.hateService.setPinHate(inCreateHateDto, user._id);
+    await this.hateService.setPinHate(inCreateHateDto, user.id);
     return {
       success: true,
       error: null,

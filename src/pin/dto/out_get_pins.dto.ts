@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ObjectId } from 'mongoose';
 import { PinDocument } from '../schemas/pin.schema';
 
 export class OutGetPinsDto {
@@ -10,7 +9,7 @@ export class OutGetPinsDto {
     required: true,
   })
   @IsNotEmpty()
-  _id: ObjectId;
+  id: string;
 
   @ApiProperty({
     example: '22.232323',
@@ -34,7 +33,7 @@ export class OutGetPinsDto {
     required: true,
   })
   @IsNotEmpty()
-  userId: ObjectId;
+  userId: string;
 
   @ApiProperty({
     example: '홍길동',
@@ -119,10 +118,10 @@ export class OutGetPinsDto {
 
   static from(pin: PinDocument): OutGetPinsDto {
     const outGetPinsDto = new OutGetPinsDto();
-    outGetPinsDto._id = pin._id;
+    outGetPinsDto.id = pin.id;
     outGetPinsDto.lat = pin.lat;
     outGetPinsDto.lng = pin.lng;
-    outGetPinsDto.userId = pin.authorUser._id;
+    outGetPinsDto.userId = pin.authorUser.id;
     outGetPinsDto.isUserBlocked = pin.authorUser.isBlocked;
     outGetPinsDto.userName = pin.authorUser.name;
     outGetPinsDto.title = pin.title;

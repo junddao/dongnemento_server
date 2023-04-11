@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ObjectId } from 'mongoose';
 
 export class InBlockDto {
   @ApiProperty({
@@ -9,7 +8,7 @@ export class InBlockDto {
     required: true,
   })
   @IsNotEmpty()
-  userId: ObjectId;
+  userId: string;
 
   @ApiProperty({
     example: 'true / false',

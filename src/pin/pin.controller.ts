@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ObjectId } from 'mongoose';
 import { ApiResponseDto, ResponseDto } from 'src/common/dto/response.dto';
 import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
@@ -32,7 +31,7 @@ export class PinController {
     @Body() inCreatePinDto: InCreatePinDto,
     @GetUser() user: User,
   ): Promise<ResponseDto<null>> {
-    await this.pinService.createPin(inCreatePinDto, user._id);
+    await this.pinService.createPin(inCreatePinDto, user.id);
     return {
       success: true,
       error: null,
@@ -69,10 +68,10 @@ export class PinController {
   @Get('/get/:id')
   @UseGuards(AuthGuard())
   async getPin(
-    @Param('id') id: ObjectId,
+    @Param('id') id: string,
     @GetUser() user: User,
   ): Promise<ResponseDto<OutGetPinDto>> {
-    const data = await this.pinService.getPin(id, user._id);
+    const data = await this.pinService.getPin(id, user.id);
     // const newData: OutGetPinDto = OutGetPinDto.from(data);
     return {
       success: true,

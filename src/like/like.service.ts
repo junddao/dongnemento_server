@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { InCreateLikeDto } from './dto/inCreateLike.dto';
 import { Like, LikeDocument } from './schemas/like.schema';
 
@@ -9,7 +9,7 @@ export class LikeService {
   constructor(@InjectModel(Like.name) private likeModel: Model<LikeDocument>) {}
   async setPinLike(
     inCreateLikeDto: InCreateLikeDto,
-    userId: ObjectId,
+    userId: string,
   ): Promise<void> {
     const exist = await this.likeModel.exists({
       pinId: inCreateLikeDto.pinId,
@@ -28,14 +28,14 @@ export class LikeService {
     }
   }
 
-  async getLikeCount(pinId: ObjectId): Promise<number> {
+  async getLikeCount(pinId: string): Promise<number> {
     const pins = await this.likeModel.find({ pinId: pinId });
 
     const pinCount = pins.length;
     return pinCount;
   }
 
-  async isLikedByMe(pinId: ObjectId, userId: ObjectId): Promise<boolean> {
+  async isLikedByMe(pinId: string, userId: string): Promise<boolean> {
     const exist = await this.likeModel.exists({
       pinId: pinId,
       userId: userId,

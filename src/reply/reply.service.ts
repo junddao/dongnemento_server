@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { InCreatePinReplyDto } from './dto/in_create_pin_reply.dto';
 import { ReplyRepository } from './reply.repository';
 import { Reply } from './schemas/reply.schema';
@@ -10,7 +10,7 @@ export class ReplyService {
 
   async createReply(
     InCreatePinReplyDto: InCreatePinReplyDto,
-    userId: ObjectId,
+    userId: string,
     userName: string,
   ): Promise<Reply> {
     return this.replyRepository.createReply(
@@ -20,7 +20,14 @@ export class ReplyService {
     );
   }
 
-  async getPinReplies(pinId: ObjectId): Promise<Reply[]> {
-    return this.replyRepository.find({ pinId: pinId });
+  async getPinReplies(pinId: string): Promise<Reply[]> {
+    const newPinId = new mongoose.Types.ObjectId(pinId);
+    console.log(pinId);
+    console.log(newPinId);
+    const replys = await this.replyRepository.find({
+      pinId: newPinId,
+    });
+    console.log(replys);
+    return replys;
   }
 }
