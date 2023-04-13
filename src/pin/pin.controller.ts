@@ -6,6 +6,7 @@ import {
   Param,
   ParseFloatPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -30,22 +31,23 @@ export class PinController {
   async createPin(
     @Body() inCreatePinDto: InCreatePinDto,
     @GetUser() user: User,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.pinService.createPin(inCreatePinDto, user.id);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 
   @ApiOperation({ summary: '위치기준 특정 거리 안에 pin들 조회' })
-  @Get('/get/pins/:lat/:lng/:range')
+  @ApiResponseDto(OutGetPinsDto)
+  @Get('/get/pins')
   @UseGuards(AuthGuard())
   async getPins(
-    @Param('lat', ParseFloatPipe) lat: number,
-    @Param('lng', ParseFloatPipe) lng: number,
-    @Param('range', ParseFloatPipe) range: number,
+    @Query('lat', ParseFloatPipe) lat: number,
+    @Query('lng', ParseFloatPipe) lng: number,
+    @Query('range', ParseFloatPipe) range: number,
   ): Promise<ResponseDto<OutGetPinsDto>> {
     const inGetPinsDto: InGetPinsDto = {
       lat,
@@ -83,12 +85,12 @@ export class PinController {
   @ApiOperation({ summary: 'pin 삭제' })
   @Delete('/delete/:id')
   @UseGuards(AuthGuard())
-  async deletePin(@Param('id') id: string): Promise<ResponseDto<null>> {
+  async deletePin(@Param('id') id: string): Promise<ResponseDto<boolean>> {
     await this.pinService.deletePin(id);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 }

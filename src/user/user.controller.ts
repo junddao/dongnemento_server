@@ -73,12 +73,12 @@ export class UserController {
   @Post('/signup')
   async signUp(
     @Body() requestSignUpDto: InSignUpDto,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.userService.signUp(requestSignUpDto);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 
@@ -86,12 +86,12 @@ export class UserController {
   @ApiResponseDto(String)
   @Get('/drop')
   @UseGuards(AuthGuard())
-  async Drop(@Req() req): Promise<ResponseDto<null>> {
+  async Drop(@Req() req): Promise<ResponseDto<boolean>> {
     await this.userService.drop(req.user);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 

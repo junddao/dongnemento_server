@@ -17,12 +17,12 @@ export class LikeController {
   async setPinLike(
     @Body() inCreateLikeDto: InCreateLikeDto,
     @GetUser() user: User,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.likeService.setPinLike(inCreateLikeDto, user.id);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 }

@@ -18,12 +18,12 @@ export class HateController {
   async setPinHate(
     @Body() inCreateHateDto: InCreateHateDto,
     @GetUser() user: User,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.hateService.setPinHate(inCreateHateDto, user.id);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 }

@@ -19,12 +19,12 @@ export class ReplyController {
   async createReply(
     @Body() inCreateReplyDto: InCreatePinReplyDto,
     @GetUser() user: User,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.replyService.createReply(inCreateReplyDto, user.id, user.name);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 

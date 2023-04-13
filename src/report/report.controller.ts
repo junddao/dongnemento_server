@@ -15,12 +15,12 @@ export class ReportController {
   @UseGuards(AuthGuard())
   async createReport(
     @Body() inCreateReportDto: InCreateReportDto,
-  ): Promise<ResponseDto<null>> {
+  ): Promise<ResponseDto<boolean>> {
     await this.reportService.createReport(inCreateReportDto);
     return {
       success: true,
       error: null,
-      data: null,
+      data: [true],
     };
   }
 }

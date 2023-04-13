@@ -122,7 +122,7 @@ export class OutGetPinsDto {
     outGetPinsDto.lat = pin.lat;
     outGetPinsDto.lng = pin.lng;
     outGetPinsDto.userId = pin.authorUser.id;
-    outGetPinsDto.isUserBlocked = pin.authorUser.isBlocked;
+    outGetPinsDto.isUserBlocked = pin.authorUser.isBlocked ?? false;
     outGetPinsDto.userName = pin.authorUser.name;
     outGetPinsDto.title = pin.title;
     outGetPinsDto.images = pin.images;
