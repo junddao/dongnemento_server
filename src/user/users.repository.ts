@@ -16,6 +16,7 @@ export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(userFilterQuery: FilterQuery<User>): Promise<User> {
+    console.log(userFilterQuery);
     return this.userModel.findOne(userFilterQuery);
   }
 
@@ -61,6 +62,8 @@ export class UsersRepository {
   ): Promise<User> {
     const { isBlocked } = inBlockDto;
 
+    console.log(isBlocked);
+    console.log(userFilterQuery);
     try {
       if (isBlocked) {
         return this.userModel.findOneAndUpdate(

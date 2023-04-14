@@ -61,8 +61,9 @@ export class UserService {
   }
 
   async getMe(user: User): Promise<User> {
-    const { id } = user;
-    return this.usersRepository.findOne({ id });
+    const _id = user.id;
+    console.log(user);
+    return this.usersRepository.findOne({ _id });
   }
 
   async getUsers(): Promise<User[]> {
@@ -83,9 +84,12 @@ export class UserService {
     if (user.status == 'drop') {
       return { accessToken: '' };
     }
+
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload = { email };
-      const accessToken = await this.jwtService.sign(payload);
+      const payload = { email, id: user.id };
+      console.log(payload);
+      const accessToken = this.jwtService.sign(payload);
+      console.log(accessToken);
       return { accessToken };
     } else {
       throw new ConflictException('user not exist');
@@ -182,6 +186,7 @@ export class UserService {
     const { email } = inSignInKakaoDto;
 
     let user = await this.usersRepository.findOne({ email });
+
     if (user == null) {
       const newUser: InSignUpDto = {
         email: updateParams.email,
@@ -202,9 +207,21 @@ export class UserService {
       return { accessToken: '' };
     }
     if (user) {
-      const payload = { email };
-      const accessToken = await this.jwtService.sign(payload);
-      return { accessToken };
+      const inSignInDto: InSignInDto = {
+        email: user.email,
+        password: 'kakaopassword',
+      };
+
+      const accessToken = await this.signIn(inSignInDto);
+
+      return accessToken;
+      // const payload = { email };
+      // console.log(payload);
+      // console.log(user);
+
+      // const accessToken = await this.jwtService.signAsync(payload);
+      // console.log(accessToken);
+      // return { accessToken };
     } else {
       throw new ConflictException('user not exist');
     }
@@ -215,11 +232,11 @@ export class UserService {
     return this.usersRepository.findOneAndUpdate({ email }, inUpdateUserDto);
   }
   async blockUser(inBlockDto: InBlockDto, user: User): Promise<User> {
-    const { userId } = inBlockDto;
+    const { id } = user;
 
     if (user.id == inBlockDto.userId) {
       throw new ConflictException('can not block myself');
     }
-    return this.usersRepository.findOneAndBlock({ userId }, inBlockDto);
+    return this.usersRepository.findOneAndBlock({ id }, inBlockDto);
   }
 }

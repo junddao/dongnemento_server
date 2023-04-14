@@ -22,12 +22,11 @@ export class ReplyService {
 
   async getPinReplies(pinId: string): Promise<Reply[]> {
     const newPinId = new mongoose.Types.ObjectId(pinId);
-    console.log(pinId);
-    console.log(newPinId);
+
     const replys = await this.replyRepository.find({
       pinId: newPinId,
     });
-    console.log(replys);
+
     return replys;
   }
 }
