@@ -43,6 +43,9 @@ export class User {
   address: string | null;
 
   @Prop()
+  blockedUserIds: string[] | null;
+
+  @Prop()
   status: string;
 
   @Prop({ default: Date.now, type: mongoose.Schema.Types.Date })

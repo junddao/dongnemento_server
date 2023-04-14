@@ -62,13 +62,23 @@ export class UsersRepository {
     const { isBlocked } = inBlockDto;
 
     try {
-      return this.userModel.findOneAndUpdate(
-        userFilterQuery,
-        { isBlocked },
-        {
-          new: true,
-        },
-      );
+      if (isBlocked) {
+        return this.userModel.findOneAndUpdate(
+          userFilterQuery,
+          { $pull: { blockedUserIds: inBlockDto.userId } },
+          {
+            new: true,
+          },
+        );
+      } else {
+        return this.userModel.findOneAndUpdate(
+          userFilterQuery,
+          { $push: { blockedUserIds: inBlockDto.userId } },
+          {
+            new: true,
+          },
+        );
+      }
     } catch (e) {
       throw new InternalServerErrorException();
     }
