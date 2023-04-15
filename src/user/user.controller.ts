@@ -146,7 +146,6 @@ export class UserController {
     @Req() req,
     @Body() inBlockDto: InBlockDto,
   ): Promise<ResponseDto<OutGetUserDto>> {
-    console.log(req.user);
     const data = await this.userService.blockUser(inBlockDto, req.user);
     return {
       success: true,

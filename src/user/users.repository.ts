@@ -16,7 +16,6 @@ export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(userFilterQuery: FilterQuery<User>): Promise<User> {
-    console.log(userFilterQuery);
     return this.userModel.findOne(userFilterQuery);
   }
 
@@ -62,13 +61,13 @@ export class UsersRepository {
   ): Promise<User> {
     const { isBlocked } = inBlockDto;
 
-    console.log(isBlocked);
     console.log(userFilterQuery);
+    console.log(inBlockDto);
     try {
       if (isBlocked) {
         return this.userModel.findOneAndUpdate(
           userFilterQuery,
-          { $pull: { blockedUserIds: inBlockDto.userId } },
+          { $push: { blockedUserIds: inBlockDto.userId } },
           {
             new: true,
           },
@@ -76,7 +75,7 @@ export class UsersRepository {
       } else {
         return this.userModel.findOneAndUpdate(
           userFilterQuery,
-          { $push: { blockedUserIds: inBlockDto.userId } },
+          { $pull: { blockedUserIds: inBlockDto.userId } },
           {
             new: true,
           },

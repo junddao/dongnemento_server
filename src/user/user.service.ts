@@ -62,7 +62,7 @@ export class UserService {
 
   async getMe(user: User): Promise<User> {
     const _id = user.id;
-    console.log(user);
+
     return this.usersRepository.findOne({ _id });
   }
 
@@ -87,9 +87,9 @@ export class UserService {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { email, id: user.id };
-      console.log(payload);
+
       const accessToken = this.jwtService.sign(payload);
-      console.log(accessToken);
+
       return { accessToken };
     } else {
       throw new ConflictException('user not exist');
@@ -232,11 +232,11 @@ export class UserService {
     return this.usersRepository.findOneAndUpdate({ email }, inUpdateUserDto);
   }
   async blockUser(inBlockDto: InBlockDto, user: User): Promise<User> {
-    const { id } = user;
+    const _id = user.id;
 
     if (user.id == inBlockDto.userId) {
       throw new ConflictException('can not block myself');
     }
-    return this.usersRepository.findOneAndBlock({ id }, inBlockDto);
+    return this.usersRepository.findOneAndBlock({ _id }, inBlockDto);
   }
 }
