@@ -65,6 +65,21 @@ export class PinController {
     };
   }
 
+  @ApiOperation({ summary: '위치기준 특정 거리 안에 pin들 조회' })
+  @ApiResponseDto(OutGetPinsDto)
+  @Get('/get/my/pins')
+  @UseGuards(AuthGuard())
+  async getMyPins(@GetUser() me: User): Promise<ResponseDto<OutGetPinsDto>> {
+    const data = await this.pinService.getMyPins(me);
+
+    // const newData: OutGetPinsDto[] = OutGetPinsDto.from(data);
+    return {
+      success: true,
+      error: null,
+      data: data,
+    };
+  }
+
   @ApiOperation({ summary: 'pin 조회' })
   @ApiResponseDto(OutGetPinDto)
   @Get('/get/:id')
