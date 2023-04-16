@@ -17,10 +17,13 @@ export class PinRepository {
     return newPin.save();
   }
   async find(pinFilterQuery: FilterQuery<Pin>): Promise<PinDocument[]> {
+    console.log(pinFilterQuery);
     const pins = await this.pinModel
       .find(pinFilterQuery)
       .populate('authorUser')
       .exec();
+
+    console.log(pins);
 
     return pins;
   }

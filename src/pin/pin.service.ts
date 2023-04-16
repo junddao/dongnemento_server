@@ -59,8 +59,8 @@ export class PinService {
   }
 
   async getMyPins(me: User): Promise<OutGetPinsDto[]> {
-    const filter = { userId: me.id };
-    const result = await this.pinRepository.find({ filter });
+    const userId = me.id;
+    const result = await this.pinRepository.find({ userId });
 
     const pins = result.map((pin) => {
       return OutGetPinsDto.from(pin);
