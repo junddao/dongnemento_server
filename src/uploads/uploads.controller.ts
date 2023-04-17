@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFiles,
@@ -15,17 +16,17 @@ export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}
   @Post('/file')
   @UseInterceptors(FilesInterceptor('file', 5))
-  async uploadFile(@UploadedFiles() files): Promise<ResponseDto<string>> {
-    console.log(files);
-
+  async uploadFile(
+    @UploadedFiles() files,
+    @Body() body,
+  ): Promise<ResponseDto<string>> {
     const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
     const imgurl: string[] = [];
     await Promise.all(
       files.map(async (file: Express.Multer.File) => {
-        const key = await this.uploadsService.uploadImage(file);
-        imgurl.push(
-          `https://${BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/` + key,
-        );
+        const dest = body.folder;
+        const key = await this.uploadsService.uploadImage(file, dest);
+        imgurl.push(key);
       }),
     );
 

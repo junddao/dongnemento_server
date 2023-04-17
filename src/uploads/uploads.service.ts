@@ -17,20 +17,36 @@ export class UploadsService {
     this.s3 = new AWS.S3();
   }
 
-  async uploadImage(file: Express.Multer.File) {
-    const key = `dongnemento/${Date.now() + file.originalname}`;
+  async uploadImage(file: Express.Multer.File, folder: string) {
+    const key = `${folder}/${Date.now()}_${file.originalname}`;
+    console.log(key);
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       ACL: 'private',
       Key: key,
       Body: file.buffer,
+      ContentType: file.mimetype,
     };
 
-    return new Promise((resolve, reject) => {
-      this.s3.putObject(params, (err, data) => {
-        if (err) reject(err);
-        resolve(key);
-      });
-    });
+    const result = await this.s3.upload(params).promise();
+    return result.Location;
   }
+
+  // async uploadImage(file: Express.Multer.File, folder: string) {
+  //   const key = 'dongnemento/' + folder + '/' + Date.now() + file.originalname;
+
+  //   const params = {
+  //     Bucket: process.env.AWS_BUCKET_NAME,
+  //     ACL: 'private',
+  //     Key: key,
+  //     Body: file.buffer,
+  //   };
+
+  //   return new Promise((resolve, reject) => {
+  //     this.s3.putObject(params, (err, data) => {
+  //       if (err) reject(err);
+  //       resolve(key);
+  //     });
+  //   });
+  // }
 }
