@@ -20,20 +20,19 @@ export class UploadsController {
     @UploadedFiles() files,
     @Body() body,
   ): Promise<ResponseDto<string>> {
-    const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-    const imgurl: string[] = [];
+    const imageUrls: string[] = [];
     await Promise.all(
       files.map(async (file: Express.Multer.File) => {
         const dest = body.folder;
         const key = await this.uploadsService.uploadImage(file, dest);
-        imgurl.push(key);
+        imageUrls.push(key);
       }),
     );
 
     return {
       success: true,
       error: null,
-      data: imgurl,
+      data: imageUrls,
     };
   }
   //   AWS.config.update({
