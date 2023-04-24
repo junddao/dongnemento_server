@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
+import CategoryType from '../enum/category_types';
 import { PinDocument } from '../schemas/pin.schema';
 
 export class OutGetPinsDto {
@@ -51,6 +52,22 @@ export class OutGetPinsDto {
   })
   @IsNotEmpty()
   isUserBlocked: boolean;
+
+  @ApiProperty({
+    example: 'DAILY',
+    description: 'pin의 카테고리',
+    required: true,
+  })
+  @IsEnum(CategoryType) // IsEnum 데코레이터를 사용하여 해당 필드가 Enum 타입임을 명시
+  category: CategoryType; // Enum 타입을 지정한 필드
+
+  @ApiProperty({
+    example: '33',
+    description: 'pin의 카테고리 점수',
+    required: true,
+  })
+  categoryScore: number;
+
   @ApiProperty({
     example: '33',
     description: '좋아요 갯수',
@@ -125,6 +142,8 @@ export class OutGetPinsDto {
     outGetPinsDto.isUserBlocked = pin.authorUser.isBlocked ?? false;
     outGetPinsDto.userName = pin.authorUser.name;
     outGetPinsDto.title = pin.title;
+    outGetPinsDto.category = pin.category;
+    outGetPinsDto.categoryScore = pin.categoryScore;
     outGetPinsDto.images = pin.images;
     outGetPinsDto.body = pin.body;
     outGetPinsDto.createdAt = pin.createdAt;

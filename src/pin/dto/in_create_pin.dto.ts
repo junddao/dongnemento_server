@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
+import CategoryType from '../enum/category_types';
 
 export class InCreatePinDto {
   @ApiProperty({
@@ -33,6 +34,21 @@ export class InCreatePinDto {
   })
   @IsNotEmpty()
   images: string[];
+
+  @ApiProperty({
+    example: 'DAILY',
+    description: 'pin의 카테고리',
+    required: true,
+  })
+  @IsEnum(CategoryType) // IsEnum 데코레이터를 사용하여 해당 필드가 Enum 타입임을 명시
+  category: CategoryType; // Enum 타입을 지정한 필드
+
+  @ApiProperty({
+    example: '33',
+    description: 'pin의 카테고리 점수',
+    required: true,
+  })
+  categoryScore: number;
 
   @ApiProperty({
     example: '내용입니다.',

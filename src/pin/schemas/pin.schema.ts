@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import CategoryType from '../enum/category_types';
 import { User } from './../../user/schemas/user.schema';
 
 export type PinDocument = Pin &
@@ -28,6 +29,12 @@ export class Pin {
 
   @Prop({ require: true })
   body: string;
+
+  @Prop({ require: true, type: String, enum: Object.values(CategoryType) })
+  category: CategoryType;
+
+  @Prop({ require: true })
+  categoryScore: number;
 
   @Prop({ default: 0 })
   likeCount: number;
