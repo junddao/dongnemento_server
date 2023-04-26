@@ -46,7 +46,9 @@ export class OutGetPinDto {
 
   @ApiProperty({
     example: 'DAILY',
-    description: 'pin의 카테고리',
+    enum: CategoryType,
+    enumName: 'CategoryType',
+    description: 'pin의 카테고리 1',
     required: true,
   })
   @IsEnum(CategoryType) // IsEnum 데코레이터를 사용하여 해당 필드가 Enum 타입임을 명시

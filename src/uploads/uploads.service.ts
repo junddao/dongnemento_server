@@ -31,22 +31,4 @@ export class UploadsService {
     const result = await this.s3.upload(params).promise();
     return result.Location;
   }
-
-  // async uploadImage(file: Express.Multer.File, folder: string) {
-  //   const key = 'dongnemento/' + folder + '/' + Date.now() + file.originalname;
-
-  //   const params = {
-  //     Bucket: process.env.AWS_BUCKET_NAME,
-  //     ACL: 'private',
-  //     Key: key,
-  //     Body: file.buffer,
-  //   };
-
-  //   return new Promise((resolve, reject) => {
-  //     this.s3.putObject(params, (err, data) => {
-  //       if (err) reject(err);
-  //       resolve(key);
-  //     });
-  //   });
-  // }
 }

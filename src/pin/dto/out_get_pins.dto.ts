@@ -55,6 +55,7 @@ export class OutGetPinsDto {
 
   @ApiProperty({
     example: 'DAILY',
+    enumName: 'CategoryType',
     description: 'pin의 카테고리',
     required: true,
   })
