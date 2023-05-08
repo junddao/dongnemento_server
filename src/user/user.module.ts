@@ -12,7 +12,7 @@ import { UsersRepository } from './users.repository';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'withWrite',
+      secret: process.env.JWT_SECRET,
       signOptions: {
         expiresIn: 60 * 60 * 24 * 90,
       },
