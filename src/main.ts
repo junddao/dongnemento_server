@@ -8,14 +8,14 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const port = configService.get('NODE_SERVER_PORT');
-  // if (process.env.NODE_ENV === 'prod') {
-  //   // 운영 환경 설정
-  //   app.setGlobalPrefix('prod');
-  // } else {
-  //   // 개발 환경 설정
-  //   app.enableCors();
-  //   app.setGlobalPrefix('dev');
-  // }
+  if (process.env.NODE_ENV === 'prod') {
+    // 운영 환경 설정
+    app.setGlobalPrefix('prod');
+  } else {
+    // 개발 환경 설정
+    app.enableCors();
+    app.setGlobalPrefix('dev');
+  }
 
   if (process.env.NODE_ENV === 'prod') {
     // 운영 환경 설정
