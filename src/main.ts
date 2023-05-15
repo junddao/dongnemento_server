@@ -8,15 +8,35 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const port = configService.get('NODE_SERVER_PORT');
+  // if (process.env.NODE_ENV === 'prod') {
+  //   // 운영 환경 설정
+  //   app.setGlobalPrefix('prod');
+  // } else {
+  //   // 개발 환경 설정
+  //   app.enableCors();
+  //   app.setGlobalPrefix('dev');
+  // }
 
-  const config = new DocumentBuilder()
-    .setTitle('Dongnemento API')
-    .setVersion('1.0')
-    .addCookieAuth('connect.sid')
-    .build();
+  if (process.env.NODE_ENV === 'prod') {
+    // 운영 환경 설정
+    const prodOptions = new DocumentBuilder()
+      .setTitle('My API (prod)')
+      .setDescription('API description (prod)')
+      .setVersion('1.0')
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+    const prodDocument = SwaggerModule.createDocument(app, prodOptions);
+    SwaggerModule.setup('/prod/docs', app, prodDocument);
+  } else {
+    // 개발 환경 설정
+    const devOptions = new DocumentBuilder()
+      .setTitle('My API (dev)')
+      .setDescription('API description (dev)')
+      .setVersion('1.0')
+      .build();
+    const devDocument = SwaggerModule.createDocument(app, devOptions);
+    SwaggerModule.setup('/dev/docs', app, devDocument);
+  }
 
   console.log(port);
   await app.listen(port);
