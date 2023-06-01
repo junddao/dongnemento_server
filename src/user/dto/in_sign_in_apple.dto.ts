@@ -9,4 +9,12 @@ export class InSignInAppleDto {
   })
   @IsNotEmpty()
   idToken: string;
+
+  @ApiProperty({
+    example: 'klsdfjklsdjf',
+    description: 'firebaseToken',
+    required: true,
+  })
+  @IsNotEmpty()
+  firebaseToken: string;
 }

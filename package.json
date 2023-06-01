@@ -38,6 +38,7 @@
     "class-validator": "^0.13.2",
     "cross-env": "^7.0.3",
     "firebase-admin": "^10.3.0",
+    "googleapis": "^118.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.1.5",
     "moment": "^2.29.3",

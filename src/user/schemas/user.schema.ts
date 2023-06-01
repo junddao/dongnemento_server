@@ -5,15 +5,16 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true })
 export class User {
-  // @Prop({ alias: '_id' })
   id: string;
-  // _id: ObjectId;
 
   @Prop()
   email: string;
 
   @Prop()
   password: string;
+
+  @Prop()
+  firebaseToken: string;
 
   @Prop()
   social: string;

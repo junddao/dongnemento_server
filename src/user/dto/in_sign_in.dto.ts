@@ -17,4 +17,12 @@ export class InSignInDto {
   })
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty({
+    example: 'klsdfjklsdjf',
+    description: 'firebaseToken',
+    required: true,
+  })
+  @IsNotEmpty()
+  firebaseToken: string;
 }

@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as firebase from 'firebase-admin';
 import { InBlockDto } from './dto/in_block.dto';
 import { InGetTokenDto } from './dto/in_get_token.dto';
 import { InSignInDto } from './dto/in_sign_in.dto';
@@ -49,16 +48,10 @@ interface AppleJwtTokenPayload {
 
 @Injectable()
 export class UserService {
-  private admin: any;
-
   constructor(
     private readonly usersRepository: UsersRepository,
     private jwtService: JwtService,
-  ) {
-    this.admin = firebase.initializeApp({
-      credential: firebase.credential.cert(firebase_params),
-    });
-  }
+  ) {}
 
   async getMe(user: User): Promise<User> {
     const _id = user.id;
@@ -160,6 +153,7 @@ export class UserService {
         lng: null,
         address: null,
         profileImage: null,
+        firebaseToken: inSignInAppleDto.firebaseToken,
       };
       // await this.admin.auth().createUser(newUser);
       await this.usersRepository.create(newUser);
@@ -197,6 +191,7 @@ export class UserService {
         lat: null,
         lng: null,
         address: null,
+        firebaseToken: inSignInKakaoDto.firebaseToken,
       };
       // await this.admin.auth().createUser(newUser);
       await this.usersRepository.create(newUser);
@@ -210,6 +205,7 @@ export class UserService {
       const inSignInDto: InSignInDto = {
         email: user.email,
         password: 'kakaopassword',
+        firebaseToken: inSignInKakaoDto.firebaseToken,
       };
 
       const accessToken = await this.signIn(inSignInDto);

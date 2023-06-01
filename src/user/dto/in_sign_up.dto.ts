@@ -49,4 +49,12 @@ export class InSignUpDto {
     // required: true,
   })
   profileImage: string | null;
+
+  @ApiProperty({
+    example: 'klsdfjklsdjf',
+    description: 'firebaseToken',
+    required: true,
+  })
+  @IsNotEmpty()
+  firebaseToken: string;
 }

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, SchemaOptions } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FirebaseModule } from './firebase/firebase.module';
 import { HateModule } from './hate/hate.module';
 import { LikeModule } from './like/like.module';
 import { LoggerMiddleware } from './logger.middleware';
@@ -62,6 +63,7 @@ import { UserModule } from './user/user.module';
     LikeModule,
     HateModule,
     ReportModule,
+    FirebaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

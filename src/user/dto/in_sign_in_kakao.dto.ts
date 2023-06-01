@@ -23,4 +23,12 @@ export class InSignInKakaoDto {
     required: false,
   })
   profileImage: string;
+
+  @ApiProperty({
+    example: 'klsdfjklsdjf',
+    description: 'firebaseToken',
+    required: true,
+  })
+  @IsNotEmpty()
+  firebaseToken: string;
 }
