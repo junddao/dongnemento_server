@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
+import { User } from 'src/user/schemas/user.schema';
 import CategoryType from '../enum/category_types';
 import { PinDocument } from './../schemas/pin.schema';
 
@@ -35,6 +36,15 @@ export class OutGetPinDto {
   })
   @IsNotEmpty()
   userId: string;
+
+  @ApiProperty({
+    // example: 'user',
+    // description: 'user',
+    required: true,
+    type: () => User,
+  })
+  @IsNotEmpty()
+  user: User;
 
   @ApiProperty({
     example: '홍길동',
