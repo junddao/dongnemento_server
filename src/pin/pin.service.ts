@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { FirebaseService } from 'src/firebase/firebase.service';
 import { ReplyService } from 'src/reply/reply.service';
 import { User } from 'src/user/schemas/user.schema';
 import { LikeService } from './../like/like.service';
@@ -15,13 +16,20 @@ export class PinService {
     private readonly pinRepository: PinRepository,
     private readonly likeService: LikeService,
     private readonly replyService: ReplyService,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   async createPin(
     InCreatePinDto: InCreatePinDto,
     userId: string,
   ): Promise<Pin> {
-    return this.pinRepository.createPin(InCreatePinDto, userId);
+    const pin = await this.pinRepository.createPin(InCreatePinDto, userId);
+    // await this.firebaseService.sendPushNotification(
+    //   'dQeAPc08tk-NjdzuB4pvG5:APA91bExQYDQ1cpR87pOSkliYTUd1wMfOzJWfapmoj44bBKmxoHsQpc1_kfouE7BpVw7bxObuQL8yOm9ml9bV--gbzTxcO8dZWXWDZQJZZQ5nreOsCox9DeE90e6vbhI8qqVN6Q0lj9h',
+    //   'aa',
+    //   'aa',
+    // );
+    return pin;
   }
 
   async getPins(inGetPinsDto: InGetPinsDto): Promise<OutGetPinsDto[]> {
