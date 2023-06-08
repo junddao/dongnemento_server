@@ -52,6 +52,12 @@ export class Pin {
   isHated: boolean;
 
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  startDate: Date;
+
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  endDate: Date;
+
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   createdAt: Date;
 
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })

@@ -57,4 +57,20 @@ export class InCreatePinDto {
   })
   @IsNotEmpty()
   body: string;
+
+  @ApiProperty({
+    example: '2021-01-01',
+    description: '시작 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  startDate: Date;
+
+  @ApiProperty({
+    example: '2021-01-01',
+    description: '종료 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  endDate: Date;
 }

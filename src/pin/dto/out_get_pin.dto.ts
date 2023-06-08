@@ -126,6 +126,20 @@ export class OutGetPinDto {
 
   @ApiProperty({
     example: '2017-03-16T17:40:00+09:00',
+    description: '시작(ISO 8601 시간)',
+    required: false,
+  })
+  startDate: Date;
+
+  @ApiProperty({
+    example: '2017-03-16T17:40:00+09:00',
+    description: '종료(ISO 8601 시간)',
+    required: false,
+  })
+  endDate: Date;
+
+  @ApiProperty({
+    example: '2017-03-16T17:40:00+09:00',
     description: '생성(ISO 8601 시간)',
     required: false,
   })
@@ -157,6 +171,8 @@ export class OutGetPinDto {
     outGetPinDto.isLiked = pin.isLiked;
     outGetPinDto.hateCount = pin.hateCount;
     outGetPinDto.isHated = pin.isHated;
+    outGetPinDto.startDate = pin.startDate;
+    outGetPinDto.endDate = pin.endDate;
     outGetPinDto.createdAt = pin.createdAt;
     outGetPinDto.updatedAt = pin.updatedAt;
 
