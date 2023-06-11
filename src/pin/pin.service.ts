@@ -24,11 +24,11 @@ export class PinService {
     userId: string,
   ): Promise<Pin> {
     const pin = await this.pinRepository.createPin(InCreatePinDto, userId);
-    // await this.firebaseService.sendPushNotification(
-    //   'dQeAPc08tk-NjdzuB4pvG5:APA91bExQYDQ1cpR87pOSkliYTUd1wMfOzJWfapmoj44bBKmxoHsQpc1_kfouE7BpVw7bxObuQL8yOm9ml9bV--gbzTxcO8dZWXWDZQJZZQ5nreOsCox9DeE90e6vbhI8qqVN6Q0lj9h',
-    //   'aa',
-    //   'aa',
-    // );
+    await this.firebaseService.sendPushNotification(
+      'dz003TVsvk-xt2f1piKREP:APA91bEJZsyixdQS-7bbgwVYWgwbvYGkzbCYSdfXhizR2c8yr2P22ff-exYVISZtXS2Joia4AmUcvVzvDI4d55Gr_cv8IcIUkIBRW6HFTbU9C_swEufplGSLWkqIaigy_EbImu6dAwzq',
+      'aa',
+      'aa',
+    );
     return pin;
   }
 

@@ -80,7 +80,6 @@ export class UserService {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { email, id: user.id };
-
       const accessToken = this.jwtService.sign(payload);
 
       return { accessToken };
@@ -104,10 +103,12 @@ export class UserService {
   async drop(user: User): Promise<boolean> {
     user.status = 'drop';
     const { email } = user;
+
     const updatedUser = await this.usersRepository.findOneAndDrop(
       { email },
       user,
     );
+
     if (updatedUser != null) {
       return true;
     }
@@ -225,6 +226,7 @@ export class UserService {
 
   async updateUser(inUpdateUserDto: InUpdateUserDto): Promise<User> {
     const { email } = inUpdateUserDto;
+
     return this.usersRepository.findOneAndUpdate({ email }, inUpdateUserDto);
   }
   async blockUser(inBlockDto: InBlockDto, user: User): Promise<User> {

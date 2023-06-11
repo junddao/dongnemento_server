@@ -81,6 +81,14 @@ export class InUpdateUserDto {
   createdAt: Date;
 
   @ApiProperty({
+    example: 'klsdfjklsdjf',
+    description: 'firebaseToken',
+    required: true,
+  })
+  @IsNotEmpty()
+  firebaseToken: string;
+
+  @ApiProperty({
     example: '2017-03-16T17:40:00+09:00',
     description: '수정(ISO 8601 시간)',
     required: false,
