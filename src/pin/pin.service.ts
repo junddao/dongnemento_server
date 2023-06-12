@@ -43,7 +43,7 @@ export class PinService {
     await this.firebaseService.sendMultiCasePushNotification(
       userIds,
       '주변에 새로운 핀이 생성되었습니다.',
-      inCreatePinDto.body,
+      inCreatePinDto.title,
       image,
       userId,
       pin.id,
