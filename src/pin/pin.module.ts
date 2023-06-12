@@ -17,6 +17,7 @@ import { Pin, PinSchema } from './schemas/pin.schema';
     FirebaseModule,
     MongooseModule.forFeature([{ name: Pin.name, schema: PinSchema }]),
   ],
+
   controllers: [PinController],
   providers: [PinService, PinRepository],
 })

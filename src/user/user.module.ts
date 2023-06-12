@@ -22,7 +22,7 @@ import { UsersRepository } from './users.repository';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   providers: [UserService, UsersRepository, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, UserService],
   controllers: [UserController],
 })
 export class UserModule {}

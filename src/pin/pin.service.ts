@@ -3,6 +3,7 @@ import { FirebaseService } from 'src/firebase/firebase.service';
 import { ReplyService } from 'src/reply/reply.service';
 import { User } from 'src/user/schemas/user.schema';
 import { LikeService } from './../like/like.service';
+import { UserService } from './../user/user.service';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
@@ -17,17 +18,35 @@ export class PinService {
     private readonly likeService: LikeService,
     private readonly replyService: ReplyService,
     private readonly firebaseService: FirebaseService,
+    private readonly userService: UserService,
   ) {}
 
   async createPin(
-    InCreatePinDto: InCreatePinDto,
+    inCreatePinDto: InCreatePinDto,
     userId: string,
   ): Promise<Pin> {
-    const pin = await this.pinRepository.createPin(InCreatePinDto, userId);
-    await this.firebaseService.sendPushNotification(
-      'dz003TVsvk-xt2f1piKREP:APA91bEJZsyixdQS-7bbgwVYWgwbvYGkzbCYSdfXhizR2c8yr2P22ff-exYVISZtXS2Joia4AmUcvVzvDI4d55Gr_cv8IcIUkIBRW6HFTbU9C_swEufplGSLWkqIaigy_EbImu6dAwzq',
-      'aa',
-      'aa',
+    const pin = await this.pinRepository.createPin(inCreatePinDto, userId);
+    const user = await this.userService.getUser(userId);
+
+    const userIds = await this.userService.getUsersFirebaseTokens();
+
+    // await this.firebaseService.sendPushNotification(
+    //   user.firebaseToken,
+    //   '주변에 새로운 핀이 생성되었습니다.',
+    //   inCreatePinDto.body,
+    //   inCreatePinDto.images[0],
+    //   userId,
+    //   pin.id,
+    // );
+    console.log(userIds);
+    const image = inCreatePinDto.images != null ? inCreatePinDto.images[0] : '';
+    await this.firebaseService.sendMultiCasePushNotification(
+      userIds,
+      '주변에 새로운 핀이 생성되었습니다.',
+      inCreatePinDto.body,
+      image,
+      userId,
+      pin.id,
     );
     return pin;
   }

@@ -9,7 +9,6 @@ import { InUpdateUserDto } from './dto/in_update_user.dto';
 import { User } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 // import * as serviceAccount from './serviceAccountKey.json';
-import * as serviceAccount from './serviceAccountKey.json';
 
 import * as jwt from 'jsonwebtoken';
 import { JwksClient } from 'jwks-rsa';
@@ -17,19 +16,6 @@ import { JwksClient } from 'jwks-rsa';
 import * as bcrypt from 'bcryptjs';
 import { InSignInAppleDto } from './dto/in_sign_in_apple.dto';
 import { OutSignInDto } from './dto/out_sign_in.dto';
-
-const firebase_params = {
-  type: serviceAccount.type,
-  projectId: serviceAccount.project_id,
-  privateKeyId: serviceAccount.private_key_id,
-  privateKey: serviceAccount.private_key,
-  clientEmail: serviceAccount.client_email,
-  clientId: serviceAccount.client_id,
-  authUri: serviceAccount.auth_uri,
-  tokenUri: serviceAccount.token_uri,
-  authProviderX509CertUrl: serviceAccount.auth_provider_x509_cert_url,
-  clientC509CertUrl: serviceAccount.client_x509_cert_url,
-};
 
 interface AppleJwtTokenPayload {
   iss: string;
@@ -64,6 +50,10 @@ export class UserService {
   }
   async getUser(_id: string): Promise<User> {
     return this.usersRepository.findOne({ _id });
+  }
+
+  async getUsersFirebaseTokens(): Promise<string[]> {
+    return this.usersRepository.findFirebaseTokens();
   }
 
   async signUp(inSignUpDto: InSignUpDto): Promise<void> {

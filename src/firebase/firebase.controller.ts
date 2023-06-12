@@ -10,7 +10,17 @@ export class FirebaseController {
     @Body('deviceToken') deviceToken: string,
     @Body('title') title: string,
     @Body('body') body: string,
+    @Body('image') image: string | null,
+    @Body('authorId') authorId: string,
+    @Body('targetId') targetId: string,
   ): Promise<string> {
-    return this.firebaseService.sendPushNotification(deviceToken, title, body);
+    return this.firebaseService.sendPushNotification(
+      deviceToken,
+      title,
+      body,
+      image,
+      authorId,
+      targetId,
+    );
   }
 }

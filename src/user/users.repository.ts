@@ -23,6 +23,15 @@ export class UsersRepository {
     return this.userModel.find(userFilterQuery);
   }
 
+  async findFirebaseTokens(): Promise<string[]> {
+    const firebaseTokens = await this.userModel.find({}, { firebaseToken: 1 });
+    console.log(firebaseTokens);
+    return firebaseTokens.map((user) => {
+      if (user.firebaseToken == undefined) return '1';
+      return user.firebaseToken;
+    });
+  }
+
   async create(inSignUpDto: InSignUpDto): Promise<void> {
     try {
       const { password } = inSignUpDto;
