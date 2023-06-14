@@ -64,6 +64,9 @@ export class UserService {
     const { email, password } = inSignInDto;
 
     const user = await this.usersRepository.findOne({ email });
+    if (user == null) {
+      throw new ConflictException('user not exist');
+    }
     if (user.status == 'drop') {
       return { accessToken: '' };
     }

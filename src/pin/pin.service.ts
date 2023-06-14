@@ -61,6 +61,9 @@ export class PinService {
         $gt: inGetPinsDto.lng - inGetPinsDto.range / 90000,
         $lt: inGetPinsDto.lng + inGetPinsDto.range / 90000,
       },
+      endDate: {
+        $gt: new Date(),
+      },
     });
 
     const pins = result.map((pin) => {
