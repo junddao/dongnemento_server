@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseFloatPipe,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -16,6 +17,7 @@ import { GetUser } from 'src/user/get-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
+import { InUpdatePinDto } from './dto/in_update_pin.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
 import { PinService } from './pin.service';
@@ -33,6 +35,21 @@ export class PinController {
     @GetUser() user: User,
   ): Promise<ResponseDto<boolean>> {
     await this.pinService.createPin(inCreatePinDto, user.id);
+    return {
+      success: true,
+      error: null,
+      data: [true],
+    };
+  }
+
+  @ApiOperation({ summary: 'Pin update' })
+  @Patch('/update/:id')
+  @UseGuards(AuthGuard())
+  async updatePin(
+    @Body() inUpdatePinDto: InUpdatePinDto,
+    @Param('id') id: string,
+  ): Promise<ResponseDto<boolean>> {
+    await this.pinService.updatePin(inUpdatePinDto, id);
     return {
       success: true,
       error: null,

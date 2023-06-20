@@ -6,6 +6,7 @@ import { LikeService } from './../like/like.service';
 import { UserService } from './../user/user.service';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
 import { InGetPinsDto } from './dto/in_get_pins.dto';
+import { InUpdatePinDto } from './dto/in_update_pin.dto';
 import { OutGetPinDto } from './dto/out_get_pin.dto';
 import { OutGetPinsDto } from './dto/out_get_pins.dto';
 import { PinRepository } from './pin.repository';
@@ -48,6 +49,12 @@ export class PinService {
       userId,
       pin.id,
     );
+    return pin;
+  }
+
+  async updatePin(inUpdatePinDto: InUpdatePinDto, id: string): Promise<Pin> {
+    const pin = await this.pinRepository.findOneAndUpdate(id, inUpdatePinDto);
+
     return pin;
   }
 

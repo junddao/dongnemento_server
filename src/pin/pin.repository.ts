@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { InCreatePinDto } from './dto/in_create_pin.dto';
+import { InUpdatePinDto } from './dto/in_update_pin.dto';
 import { Pin, PinDocument } from './schemas/pin.schema';
 
 @Injectable()
@@ -26,6 +31,22 @@ export class PinRepository {
     console.log(pins);
 
     return pins;
+  }
+
+  async findOneAndUpdate(
+    id: string,
+    inUpdatePinDto: InUpdatePinDto,
+  ): Promise<Pin> {
+    try {
+      const res = await this.pinModel.findByIdAndUpdate(id, inUpdatePinDto, {
+        new: true,
+      });
+      console.log(res);
+
+      return res;
+    } catch (e) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async findById(id: string): Promise<PinDocument> {
